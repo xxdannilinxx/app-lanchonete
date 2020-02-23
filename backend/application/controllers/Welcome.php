@@ -22,4 +22,18 @@ class Welcome extends CI_Controller {
 	{
 		$this->load->view('welcome_message');
 	}
+
+	public function produtos()
+	{
+		echo json_encode([
+			"1" => [
+				"nome" => "Suco",
+				"valor" => 10
+			],
+			"2" => [
+				"nome" => "Pão",
+				"valor" => 1
+			]
+		]);
+	}
 }
