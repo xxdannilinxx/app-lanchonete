@@ -1,5 +1,9 @@
 *.vscode
 *.DS_Store
 *Thumbs.db
-*/backend/
-backend/application/logs/*
+
+dump
+dev
+application/logs/
+
+!README
