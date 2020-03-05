@@ -3,25 +3,14 @@
 /**
  * BANCO DE DADOS
  */
-// mudar para preg_split
-// $base = explode("\n", trim(file_get_contents(BASE_ROOT . '/database')));
-//         $basedir_db = (!empty($base[1]) ? $base[1] : '');
-//         $base = explode(",", trim($base[0]));
-
-//         $hostname_db = $base[0];
-
-//         if (isset($base[1])) {
-//             $username_db = $base[1];
-//         }
-
-//         if (isset($base[2])) {
-//             $password_db = $base[2];
-//         }
-
-//         if (isset($base[3])) {
-//             $database_db = $base[3];
-//         }
-
+if (!file_exists('db')) {
+    exit("É necessário que seja criado o arquivo db na raíz.");
+}
+$base = preg_split("/,/", file_get_contents('db'));
+define("DB_HOST", (isset($base[0]) ? $base[0] : ""));
+define("DB_USER", (isset($base[1]) ? $base[1] : ""));
+define("DB_PASS", (isset($base[2]) ? $base[2] : ""));
+define("DB_NAME", (isset($base[3]) ? $base[3] : ""));
 
 /**
  * DUMP
@@ -40,6 +29,5 @@ if (file_exists('dump')) {
  * EM PRODUÇÃO
  */
 define("IN_PRODUCTION", file_exists('dev'));
-
 
 require "backend/index.php";

@@ -4,6 +4,7 @@
 *.log
 
 dump
+db
 dev
 backend/application/logs/
 
