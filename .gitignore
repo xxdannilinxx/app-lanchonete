@@ -4,6 +4,6 @@
 
 dump
 dev
-application/logs/
+backend/application/logs/
 
 !README
