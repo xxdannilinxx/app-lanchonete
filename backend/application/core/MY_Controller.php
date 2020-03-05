@@ -2,29 +2,15 @@
 
 class MY_Controller extends CI_Controller {
 
-    function dump(string $type, $message): void
+    function getException($exception)
     {
-        if (DUMP) {
-            switch($type) {
-                case 'info':
-                    $color = "0;36m";
-                break;
-                case 'error':
-                    $color = "0;31m";
-                break;
-                default:
-                    $color = "0;32m";
-                    $type = "debug";
-                break;
-            }
-            // log_message($type, sprintf("\e[{$color}%s\e[0m", $message . "\n Linha: " . __LINE__ . " em " . (!empty($this->uri->uri_string()) ? $this->uri->uri_string() : "/") . "."));
-        }
+        error($exception->getMessage());
     }
 
     function death(string $message): void
     {
-        $this->dump('error', $message);
-        exit($message);
+        error($message);
+        exit;
     }
 
     function setReturn(bool $success, string $message, array $data = []): array
@@ -70,9 +56,9 @@ class MY_Controller extends CI_Controller {
                     throw new \Exception("JSON: " . $lastError . ".");
                 } else {
                     if ($lastError === false) {
-                        $this->dump('info', 'JSON: Retornou falso, porém não ocorreu nenhum erro.');
+                        info('JSON: Retornou falso, porém não ocorreu nenhum erro.');
                     } else {
-                        $this->dump('info', 'JSON: ' . $lastError . '.');
+                        info('JSON: ' . $lastError . '.');
                     }
                 }
             }

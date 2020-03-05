@@ -1,6 +1,7 @@
 *.vscode
 *.DS_Store
 *Thumbs.db
+*.log
 
 dump
 dev

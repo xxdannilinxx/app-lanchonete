@@ -167,7 +167,7 @@ class CI_Log {
 	 * @param	string	$msg 	The error message
 	 * @return	bool
 	 */
-	public function write_log($level, $msg)
+	public function write_log($level, $msg, $footer)
 	{
 		if ($this->_enabled === FALSE)
 		{
@@ -182,7 +182,7 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.'.$this->_file_ext;
+		$filepath = $this->_log_path.'app.'.$this->_file_ext;
 		$message = '';
 
 		if ( ! file_exists($filepath))
@@ -215,7 +215,26 @@ class CI_Log {
 			$date = date($this->_date_fmt);
 		}
 
+		switch($level) {
+            case 'INFO':
+                $color = "0;36m";
+            break;
+            case 'ERROR':
+                $color = "0;31m";
+            break;
+            default:
+                $color = "0;32m";
+                $level = "DEBUG";
+            break;
+        }
+
+		$msg = sprintf("\e[{$color}%s\e[0m", $msg);
 		$message .= $this->_format_line($level, $date, $msg);
+
+		if ($footer) {
+			$msg2 = sprintf("\e[0;37m%s\e[0m", " on line " . __LINE__ . " in " . $_SERVER['REQUEST_URI']);
+			$message .= $this->_format_line($level, $date, $msg2);
+		}
 
 		for ($written = 0, $length = self::strlen($message); $written < $length; $written += $result)
 		{
@@ -251,7 +270,7 @@ class CI_Log {
 	 */
 	protected function _format_line($level, $date, $message)
 	{
-		return $level.' - '.$date.' --> '.$message.PHP_EOL;
+		return "[{$date}] [{$_SERVER['REMOTE_ADDR']}] [{$level}] --> " . $message.PHP_EOL;
 	}
 
 	// --------------------------------------------------------------------
