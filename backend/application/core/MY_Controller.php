@@ -2,16 +2,16 @@
 
 class MY_Controller extends CI_Controller {
 
-    function getException($exception, bool $return = false): bool
-    {
-        error($exception->getMessage() . "\n" . $exception->getTraceAsString(), E_CORE_ERROR);
-        return $return;
-    }
-
     function death(string $message): void
     {
         error($message);
         exit($message);
+    }
+    
+    function getException($exception, bool $return = false): bool
+    {
+        error($exception->getMessage() . "\n" . $exception->getTraceAsString(), E_CORE_ERROR);
+        return $return;
     }
 
     function setReturn(bool $success, string $message, array $data = []): array
@@ -67,9 +67,10 @@ class MY_Controller extends CI_Controller {
         return $value;
     }
 
-    function setSubmit(bool $success, string $message, array $data = []): string
+    function setSubmit(bool $success, string $message, array $data = []): void
     {
-        return $this->setJson($this->setReturn($success, $message, $data));
+        header("Content-type: application/json; charset=utf-8");
+        echo $this->setJson($this->setReturn($success, $message, $data));
     }
 
 }

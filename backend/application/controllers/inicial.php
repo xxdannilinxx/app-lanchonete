@@ -11,9 +11,10 @@ class Inicial extends MY_Controller {
 	public function index()
 	{
 		try {
-			$this->death('Ops, não pode ser acessado diretamente.');
+			throw new Exception('Ops, não pode ser acessado diretamente.');
 		} catch (Exception $e) {
 			$this->getException($e);
+			$this->setSubmit(false, $e->getMessage(), []);
 		}
 	}
 }

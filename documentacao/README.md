@@ -16,7 +16,7 @@ Para ativar dump, basta criar o arquivo "dump" na raíz, dentro do arquivo infor
 
 ou para desativar, basta remover o arquivo "dump" na raiz.
 
-* acessível na pasta backend/application/logs através do comando "tail -f".
+* acessível na pasta backend/application/logs através do comando "tail -f *.log".
 
 # LOG
 para acessar o log, dar permissão 777 no arquivo "log.sh" na raíz, ao fazer isso, ele já ativa o dump com todas as mensagens de erros (4).
