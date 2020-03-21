@@ -1,5 +1,8 @@
 # Configuração
 
+# BANCO DE DADOS
+Criar arquivo "db" na raíz do site, o modelo do banco está na pasta documentação.
+
 # PRODUCÃO / DEESNVOLVIMENTO
 Se estiver em modo de desenvolvimento, criar arquivo "dev" na raíz, caso contrário o sistema constatará que está em modo de produção.
 

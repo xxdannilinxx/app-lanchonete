@@ -2,9 +2,10 @@
 
 class MY_Controller extends CI_Controller {
 
-    function getException($exception)
+    function getException($exception, bool $return = false): bool
     {
-        error($exception->getMessage());
+        error($exception->getMessage() . "\n" . $exception->getTraceAsString(), E_CORE_ERROR);
+        return $return;
     }
 
     function death(string $message): void
