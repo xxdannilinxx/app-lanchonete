@@ -10,7 +10,7 @@ class MY_Controller extends CI_Controller {
     function death(string $message): void
     {
         error($message);
-        exit;
+        exit($message);
     }
 
     function setReturn(bool $success, string $message, array $data = []): array
