@@ -2,19 +2,31 @@
 
 class MY_Controller extends CI_Controller {
 
-    function death(string $message): void
+    public function __construct()
+    {
+        debug('Requisição realizada por: ' . $_SERVER['REMOTE_ADDR']);
+    }
+
+    public function death(string $message): void
     {
         error($message);
         exit($message);
     }
+
+    public function __call(string $name, array $arguments): void
+    {
+        $classe = get_class($this);
+        $message = "Sua requisição não existe ou foi descontinuado: {$classe}::{$name}.";
+        $this->death($message);
+    }
     
-    function getException($exception, bool $return = false): bool
+    public function getException($exception, bool $return = false): bool
     {
         error($exception->getMessage() . "\n" . $exception->getTraceAsString(), E_CORE_ERROR);
         return $return;
     }
 
-    function setReturn(bool $success, string $message, array $data = []): array
+    public function setReturn(bool $success, string $message, array $data = []): array
     {
         return [
             'success' => $success,
@@ -67,7 +79,7 @@ class MY_Controller extends CI_Controller {
         return $value;
     }
 
-    function setSubmit(bool $success, string $message, array $data = []): void
+    public function setSubmit(bool $success, string $message, array $data = []): void
     {
         header("Content-type: application/json; charset=utf-8");
         echo $this->setJson($this->setReturn($success, $message, $data));

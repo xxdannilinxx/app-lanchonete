@@ -465,16 +465,13 @@ if ( ! function_exists('log_message'))
 			// references cannot be directly assigned to static variables, so we use an array
 			$_log[0] =& load_class('Log', 'core');
 		}
-
+		
 		if (is_array($message)) {
 			log_message($level, "array => [", false);
 			foreach($message as $key => $msg) {
 				log_message($level, "	{$key} => {$msg},", false);
 			}
 			log_message($level, "]", true);
-			return false;
-		} else if($message === null || $message === "") {
-			log_message($level, "null", true);
 			return false;
 		}
 		$_log[0]->write_log($level, $message, $footer);
