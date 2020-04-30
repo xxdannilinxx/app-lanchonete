@@ -1,6 +1,7 @@
 <?php
 
-class MY_Controller extends CI_Controller {
+class MY_Controller extends CI_Controller
+{
 
     public function __construct()
     {
@@ -19,7 +20,7 @@ class MY_Controller extends CI_Controller {
         $message = "Sua requisição não existe ou foi descontinuado: {$classe}::{$name}.";
         $this->death($message);
     }
-    
+
     public function getException($exception, bool $return = false): bool
     {
         error($exception->getMessage() . "\n" . $exception->getTraceAsString(), E_CORE_ERROR);
@@ -31,7 +32,8 @@ class MY_Controller extends CI_Controller {
         return [
             'success' => $success,
             'message' => $message,
-            'data' => $data];
+            'data' => $data
+        ];
     }
 
     public function setJson(array $value, int $options = 0, bool $errorGenerateException = false): string
@@ -84,5 +86,4 @@ class MY_Controller extends CI_Controller {
         header("Content-type: application/json; charset=utf-8");
         echo $this->setJson($this->setReturn($success, $message, $data));
     }
-
 }
