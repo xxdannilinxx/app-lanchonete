@@ -174,6 +174,18 @@ class CI_Log {
 			return FALSE;
 		}
 
+		if (is_array($msg)) {
+			$msg = "array => [" . json_encode($msg) . "]";
+		}
+
+		if (is_object($msg)) {
+			$msg = "object => [" . json_encode($msg) . "]";
+		}
+
+		if (is_bool($msg)) {
+			$msg = "boolean => " . ($msg ? "true" : "false");
+		}
+
 		$level = strtoupper($level);
 
 		if (( ! isset($this->_levels[$level]) OR ($this->_levels[$level] > $this->_threshold))

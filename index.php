@@ -31,3 +31,5 @@ if (file_exists('dump')) {
 define("IN_PRODUCTION", file_exists('dev'));
 
 require "backend/index.php";
+error(true);
+error((object) array('1' => 'foo'));

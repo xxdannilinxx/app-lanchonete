@@ -1,4 +1,4 @@
-# Configuração
+## Configuração
 
 # BANCO DE DADOS
 Criar arquivo "db" na raíz do site, o modelo do banco está na pasta documentação.
