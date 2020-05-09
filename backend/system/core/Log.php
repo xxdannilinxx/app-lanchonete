@@ -174,16 +174,8 @@ class CI_Log {
 			return FALSE;
 		}
 
-		if (is_array($msg)) {
-			$msg = "array => [" . json_encode($msg) . "]";
-		}
-
-		if (is_object($msg)) {
-			$msg = "object => [" . json_encode($msg) . "]";
-		}
-
-		if (is_bool($msg)) {
-			$msg = "boolean => " . ($msg ? "true" : "false");
+		if (!is_string($msg)) {
+			$msg = gettype($msg) . ($msg ? " => " . json_encode($msg) : '');
 		}
 
 		$level = strtoupper($level);
@@ -240,7 +232,11 @@ class CI_Log {
             break;
         }
 
-		$msg = sprintf("\e[{$color}%s\e[0m", $msg);
+		$msg = sprintf("\e[{$color}%s\e[0m", $msg) 
+		// . sprintf("\e[0;37m%s\e[0m", " on line ")
+		// . sprintf("\e[{$color}%s\e[0m", __LINE__)
+		. sprintf("\e[0;37m%s\e[0m", " in url ")
+		. sprintf("\e[{$color}%s\e[0m", $_SERVER['REQUEST_URI']);
 		$message .= $this->_format_line($level, $date, $msg);
 
 		if ($footer) {
@@ -282,6 +278,7 @@ class CI_Log {
 	 */
 	protected function _format_line($level, $date, $message)
 	{
+		$level = strtolower($level);
 		return "[{$date}] [{$_SERVER['REMOTE_ADDR']}] [{$level}] --> " . $message.PHP_EOL;
 	}
 

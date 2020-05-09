@@ -456,7 +456,7 @@ if ( ! function_exists('log_message'))
 	 * @param	string	the error message
 	 * @return	void
 	 */
-	function log_message($level, $message, $footer = true)
+	function log_message($level, $message, $footer = false)
 	{
 		static $_log;
 

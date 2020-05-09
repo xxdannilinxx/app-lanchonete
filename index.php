@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Sao_Paulo');
 
 /**
  * BANCO DE DADOS
@@ -29,5 +30,10 @@ if (file_exists('dump')) {
  * EM PRODUÇÃO
  */
 define("IN_PRODUCTION", file_exists('dev'));
+
+/**
+ * API TOKEN
+ */
+define("API_TOKEN", false);
 
 require "backend/index.php";

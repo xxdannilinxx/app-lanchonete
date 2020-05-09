@@ -1,42 +1,43 @@
 <?php
 
+
 class MY_Controller extends CI_Controller
 {
 
+    public $habilitarApi = false;
+
     public function __construct()
     {
+        parent::__construct();
         debug('Requisição realizada por: ' . $_SERVER['REMOTE_ADDR']);
-    }
-
-    public function death(string $message): void
-    {
-        error($message);
-        exit($message);
+        debug('Fuso Horário: ' . date_default_timezone_get());
+        
     }
 
     public function __call(string $name, array $arguments): void
     {
         $classe = get_class($this);
-        $message = "Sua requisição não existe ou foi descontinuado: {$classe}::{$name}.";
-        $this->death($message);
+        $mensagem = "Sua requisição não existe ou foi descontinuada: {$classe}->{$name}.";
+        error($mensagem);
+        exit($this->setSubmit(false, $mensagem));
     }
 
-    public function getException($exception, bool $return = false): bool
+    public function getException(object $exception, string $message = null): void
     {
-        error($exception->getMessage() . "\n" . $exception->getTraceAsString(), E_CORE_ERROR);
-        return $return;
+        error($exception->getMessage() . "\n" . $exception->getTraceAsString());
+        exit($this->setSubmit(false, ($message ?? $exception->getMessage())));
     }
 
-    public function setReturn(bool $success, string $message, array $data = []): array
+    public function setReturn(bool $success, string $message, array $data = []): object
     {
-        return [
+        return (object) [
             'success' => $success,
             'message' => $message,
             'data' => $data
         ];
     }
 
-    public function setJson(array $value, int $options = 0, bool $errorGenerateException = false): string
+    public function setJson(object $value, int $options = 0, bool $errorGenerateException = false): string
     {
         $value = json_encode($value, $options);
         if ($value === false) {
@@ -81,9 +82,42 @@ class MY_Controller extends CI_Controller
         return $value;
     }
 
-    public function setSubmit(bool $success, string $message, array $data = []): void
+    public function setSubmit(bool $success, string $message, array $data = []): bool
     {
         header("Content-type: application/json; charset=utf-8");
         echo $this->setJson($this->setReturn($success, $message, $data));
+        return $success;
+    }
+
+    public function api(string $metodo = null): string
+    {
+        try {
+            if (empty($metodo)) {
+                throw new \Exception("Método não informado.");
+            }
+
+            $this->habilitarApi = true;
+            $retornoMetodo = $this->$metodo();
+            return $this->setSubmit($retornoMetodo->success ?? false, $retornoMetodo->message ?? null, $retornoMetodo->data ?? []);
+        } catch (\Exception $e) {
+            return $this->getException($e);
+        }
+    }
+
+    public function verificarApi(string $metodo): object
+    {
+        try {
+            if (!$this->habilitarApi) {
+                throw new \Exception("O acesso direto ao método não é fornecido.");
+            }
+
+            if ($_SERVER['REQUEST_METHOD'] !== $metodo) {
+                throw new \Exception("Forma de requisição incorreta, utilizar {$metodo}.");
+            }
+            $this->habilitarApi = false;
+            return $this->setReturn(true, 'Ok.');
+        } catch (\Exception $e) {
+            return $this->getException($e);
+        }
     }
 }
