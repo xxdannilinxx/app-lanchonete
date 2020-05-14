@@ -27,13 +27,27 @@ if (file_exists('dump')) {
 }
 
 /**
+ * SITUAÇÃO
+ */
+if (file_exists('situacao')) {
+    $situacao = file_get_contents('situacao');
+    switch($situacao) {
+        case 'aberto':
+        case 'fechado':
+            break;
+        default:
+            file_put_contents('situacao', "manutencao");
+            exit('Estamos em manutenção no momento.');
+            break;
+    }
+    define("SITUACAO", $situacao);
+} else {
+    define("SITUACAO", "aberto");
+}
+
+/**
  * EM PRODUÇÃO
  */
 define("IN_PRODUCTION", file_exists('dev'));
-
-/**
- * API TOKEN
- */
-define("API_TOKEN", false);
 
 require "backend/index.php";

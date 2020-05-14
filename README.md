@@ -1,5 +1,8 @@
 ## Configuração
 
+# SIUACAO DO ESTABELECIMENTO
+Basta editar o arquivo "situacao" na raíz do site, com as opções aberto/fechado/manutencao.
+
 # BANCO DE DADOS
 Criar arquivo "db" na raíz do site, o modelo do banco está na pasta documentação.
 

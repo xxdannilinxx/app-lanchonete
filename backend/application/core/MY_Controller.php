@@ -1,17 +1,15 @@
 <?php
 
-
 class MY_Controller extends CI_Controller
 {
 
+    public $cliente = false;
     public $habilitarApi = false;
 
     public function __construct()
     {
         parent::__construct();
-        debug('Requisição realizada por: ' . $_SERVER['REMOTE_ADDR']);
-        debug('Fuso Horário: ' . date_default_timezone_get());
-        
+        $this->em = $this->doctrine->em;
     }
 
     public function __call(string $name, array $arguments): void
@@ -107,15 +105,30 @@ class MY_Controller extends CI_Controller
     public function verificarApi(string $metodo): object
     {
         try {
+            $metodoRecebido = $_SERVER['REQUEST_METHOD'];
+            $token = $_SERVER['HTTP_AUTHORIZATION'];
+
             if (!$this->habilitarApi) {
                 throw new \Exception("O acesso direto ao método não é fornecido.");
             }
 
-            if ($_SERVER['REQUEST_METHOD'] !== $metodo) {
+            if ($metodoRecebido !== $metodo) {
                 throw new \Exception("Forma de requisição incorreta, utilizar {$metodo}.");
             }
+
+            if (!$token) {
+                throw new \Exception("O token de autorização não foi recebido no cabeçalho.");
+            }
+
+            $DAOClientes = new DAO\Clientes();
+            $retornoToken = $DAOClientes->verificarToken($token);
+            if (!$retornoToken) {
+                throw new \Exception("O token de autorização não foi encontrado.");
+            }
+            $this->cliente = $retornoToken;
+
             $this->habilitarApi = false;
-            return $this->setReturn(true, 'Ok.');
+            return $this->setReturn(true, 'API verificada com sucesso.');
         } catch (\Exception $e) {
             return $this->getException($e);
         }
