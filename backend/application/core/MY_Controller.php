@@ -20,6 +20,25 @@ class MY_Controller extends CI_Controller
         exit($this->setSubmit(false, $mensagem));
     }
 
+    public function detectarMetodo(): string
+    {
+        $method = strtoupper($this->input->server('REQUEST_METHOD'));
+      
+        if ($this->config->item('enable_emulate_request')) {
+          if ($this->input->post('_method')) {
+            $method = strtoupper($this->input->post('_method'));
+          } else if ($this->input->server('HTTP_X_HTTP_METHOD_OVERRIDE')) {
+            $method = strtoupper($this->input->server('HTTP_X_HTTP_METHOD_OVERRIDE'));
+          }      
+        }
+      
+        if (in_array($method, array('GET', 'DELETE', 'POST', 'PUT'))) {
+          return $method;
+        }
+      
+        return 'GET';
+      }
+
     public function getException(object $exception, string $message = null): void
     {
         error($exception->getMessage() . "\n" . $exception->getTraceAsString());
@@ -105,7 +124,7 @@ class MY_Controller extends CI_Controller
     public function verificarApi(string $metodo): object
     {
         try {
-            $metodoRecebido = $_SERVER['REQUEST_METHOD'];
+            $metodoRecebido = $this->detectarMetodo();
             $token = $_SERVER['HTTP_AUTHORIZATION'];
 
             if (!$this->habilitarApi) {
@@ -113,7 +132,7 @@ class MY_Controller extends CI_Controller
             }
 
             if ($metodoRecebido !== $metodo) {
-                throw new \Exception("Forma de requisição incorreta, utilizar {$metodo}.");
+                throw new \Exception("Forma de requisição ({$metodoRecebido}) incorreta, utilizar {$metodo}.");
             }
 
             if (!$token) {
@@ -123,7 +142,7 @@ class MY_Controller extends CI_Controller
             $DAOClientes = new DAO\Clientes();
             $retornoToken = $DAOClientes->verificarToken($token);
             if (!$retornoToken) {
-                throw new \Exception("O token de autorização não foi encontrado.");
+                throw new \Exception("O token de autorização não está autenticado.");
             }
             $this->cliente = $retornoToken;
 

@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Clientes extends MY_Controller
+class Categorias extends MY_Controller
 {
 	public function __construct()
 	{
@@ -21,10 +21,10 @@ class Clientes extends MY_Controller
              */
             $filtros = ($filtros ? $filtros : $this->input->get());
 
-			$DAOClientes = new DAO\Clientes();
-			$retorno = $DAOClientes->lista($filtros);
+			$DAOCategorias = new DAO\Categorias();
+			$retorno = $DAOCategorias->lista($filtros);
 
-			return $this->setReturn(true, 'Lista de clientes obtida com êxito.', $retorno);
+			return $this->setReturn(true, 'Lista de categorias obtida com êxito.', $retorno);
 		} catch (\Exception $e) {
 			return $this->getException($e);
 		}

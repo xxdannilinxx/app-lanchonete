@@ -12,27 +12,29 @@ class Clientes extends AbstractModel
         parent::__construct();
     }
 
-    public function listar(): array
+    public function lista(array $filtros = []): array
     {
-        $listar = $this->em->createQueryBuilder()
-            ->select('c')
+        $qb = $this->em->createQueryBuilder();
+        
+        $qb->select('c')
             ->from('Entities\Clientes', 'c')
             ->where('c.situacao = ?0')
             ->setParameter(0, 'ativo');
 
-        return $listar->getQuery()->getArrayResult();
+        return $qb->getQuery()->getArrayResult();
     }
 
     public function verificarToken(string $token): array
     {
-        $listar = $this->em->createQueryBuilder()
-            ->select('c')
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select('c')
             ->from('Entities\Clientes', 'c')
             ->where('c.situacao = ?0')
             ->setParameter(0, 'ativo')
             ->andWhere('c.token = ?1')
             ->setParameter(1, $token);
 
-        return $listar->getQuery()->getArrayResult();
+        return $qb->getQuery()->getArrayResult();
     }
 }

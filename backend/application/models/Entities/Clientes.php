@@ -38,6 +38,13 @@ class Clientes
     /**
      * @var string
      *
+     * @Column(name="senha", type="string", length=255, nullable=false)
+     */
+    private $senha;
+
+    /**
+     * @var string
+     *
      * @Column(name="telefone", type="string", length=45, nullable=false)
      */
     private $telefone;
@@ -138,6 +145,30 @@ class Clientes
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set senha.
+     *
+     * @param string $senha
+     *
+     * @return Clientes
+     */
+    public function setSenha($senha)
+    {
+        $this->senha = $senha;
+
+        return $this;
+    }
+
+    /**
+     * Get senha.
+     *
+     * @return string
+     */
+    public function getSenha()
+    {
+        return $this->senha;
     }
 
     /**
