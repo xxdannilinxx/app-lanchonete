@@ -1,7 +1,11 @@
 import axios from 'axios'
 
-export const http = axios.create({
-  baseURL: 'http://localhost:8088/',
-  headers: { Authorization: 123 },
+const baseURL = 'http://localhost:8088/'
+const token = 123
+const http = axios.create({
+  baseURL: baseURL,
+  headers: { Authorization: token },
   responseEncoding: 'utf8'
 })
+
+export { http, baseURL, token }

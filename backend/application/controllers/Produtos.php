@@ -15,11 +15,11 @@ class Produtos extends MY_Controller
 			$verificarApi = $this->verificarApi('GET');
 			if (!$verificarApi->success) {
 				throw new \Exception($verificarApi->message);
-            }
-            /**
-             * 
-             */
-            $filtros = ($filtros ? $filtros : $this->input->get());
+			}
+			/**
+			 * 
+			 */
+			$filtros = ($filtros ? $filtros : $this->input->get());
 
 			$DAOProdutos = new DAO\Produtos();
 			$retorno = $DAOProdutos->lista($filtros);
@@ -36,15 +36,15 @@ class Produtos extends MY_Controller
 			$verificarApi = $this->verificarApi('GET');
 			if (!$verificarApi->success) {
 				throw new \Exception($verificarApi->message);
-            }
-            /**
-             * 
-             */
+			}
+			/**
+			 * 
+			 */
 			$retorno = [];
 			$DAOProdutos = new DAO\Produtos();
 			$DAOCategorias = new DAO\Categorias();
 			$categorias = $DAOCategorias->lista();
-			foreach($categorias as $categoria) {
+			foreach ($categorias as $categoria) {
 				$retorno[] = [
 					'nome' => $categoria['nome'],
 					'produtos' => $DAOProdutos->lista(['categoria' => $categoria['id']])
