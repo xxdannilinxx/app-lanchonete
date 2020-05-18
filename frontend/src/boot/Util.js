@@ -28,7 +28,6 @@ export default ({ Vue }) => {
                     break
             }
             Notify.create({
-                position: 'top',
                 progress: true,
                 multiLine: true,
                 icon: icone,

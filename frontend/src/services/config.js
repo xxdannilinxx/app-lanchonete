@@ -8,4 +8,4 @@ const http = axios.create({
   responseEncoding: 'utf8'
 })
 
-export { http, baseURL, token }
+export { http, baseURL }
