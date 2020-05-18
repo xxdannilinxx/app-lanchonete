@@ -1,7 +1,7 @@
 <template>
   <div class="check-empty">
     <div
-      v-if="!categorias.length && carregado"
+      v-if="!items.length && loaded"
       class="nenhum-resultado fixed-center text-center"
     >
       <p>
@@ -14,11 +14,11 @@
     </div>
 
     <div
-      v-if="categorias.length"
+      v-if="items.length"
       class="q-pa-md q-gutter-md"
     >
       <div
-        v-for="categoria in categorias"
+        v-for="categoria in items"
         :key="categoria.nome"
       >
         {{ categoria.nome }}
@@ -64,37 +64,27 @@
 </template>
 
 <script>
-import ProdutosService from '../../services/produtos'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'Lista',
-  data () {
-    return {
-      categorias: [],
-      carregado: false
-    }
+  name: 'Produtos',
+  created () {
+    this.lista().then(response => {
+      if (!response.success) {
+        this.$app.Util.setMessage(response.message, 'fail')
+      }
+    })
+  },
+  computed: {
+    ...mapGetters('produtos', [
+      'items',
+      'loaded'
+    ])
   },
   methods: {
-    listaComCategorias () {
-      const me = this
-      ProdutosService.listaComCategorias()
-        .then(response => {
-          if (response.data.success) {
-            me.categorias = response.data.data
-            return
-          }
-          throw response.data.message
-        })
-        .catch(response => {
-          this.$app.Util.setMessage(response, 'fail')
-        })
-        .then(() => {
-          me.carregado = true
-        })
-    }
-  },
-  mounted () {
-    this.listaComCategorias()
+    ...mapActions('produtos', [
+      'lista'
+    ])
   }
 }
 </script>

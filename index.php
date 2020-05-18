@@ -1,6 +1,5 @@
 <?php
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Authorization');
 date_default_timezone_set('America/Sao_Paulo');
 
@@ -34,7 +33,7 @@ if (file_exists('dump')) {
  */
 if (file_exists('situacao')) {
     $situacao = file_get_contents('situacao');
-    switch($situacao) {
+    switch ($situacao) {
         case 'aberto':
         case 'fechado':
             break;

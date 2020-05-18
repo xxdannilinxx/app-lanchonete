@@ -22,22 +22,22 @@ class MY_Controller extends CI_Controller
 
     public function detectarMetodo(): string
     {
-        $method = strtoupper($this->input->server('REQUEST_METHOD'));
-      
+        $metodo = strtoupper($this->input->server('REQUEST_METHOD'));
+
         if ($this->config->item('enable_emulate_request')) {
-          if ($this->input->post('_method')) {
-            $method = strtoupper($this->input->post('_method'));
-          } else if ($this->input->server('HTTP_X_HTTP_METHOD_OVERRIDE')) {
-            $method = strtoupper($this->input->server('HTTP_X_HTTP_METHOD_OVERRIDE'));
-          }      
+            if ($this->input->post('_method')) {
+                $metodo = strtoupper($this->input->post('_method'));
+            } else if ($this->input->server('HTTP_X_HTTP_METHOD_OVERRIDE')) {
+                $metodo = strtoupper($this->input->server('HTTP_X_HTTP_METHOD_OVERRIDE'));
+            }
         }
-      
-        if (in_array($method, array('GET', 'DELETE', 'POST', 'PUT'))) {
-          return $method;
+
+        if (in_array($metodo, array('GET', 'DELETE', 'POST', 'PUT'))) {
+            return $metodo;
         }
-      
-        return 'GET';
-      }
+
+        throw new \Exception("Requisição {$metodo} não aceita.");
+    }
 
     public function getException(object $exception, string $message = null): void
     {

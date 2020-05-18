@@ -30,6 +30,7 @@ export default ({ Vue }) => {
             Notify.create({
                 progress: true,
                 multiLine: true,
+                position: 'top',
                 icon: icone,
                 message: String(mensagem),
                 color: cor

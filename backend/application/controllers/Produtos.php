@@ -20,30 +20,13 @@ class Produtos extends MY_Controller
 			 * 
 			 */
 			$filtros = ($filtros ? $filtros : $this->input->get());
-
-			$DAOProdutos = new DAO\Produtos();
-			$retorno = $DAOProdutos->lista($filtros);
-
-			return $this->setReturn(true, 'Lista de produtos obtida com êxito.', $retorno);
-		} catch (\Exception $e) {
-			return $this->getException($e);
-		}
-	}
-
-	public function listaComCategorias()
-	{
-		try {
-			$verificarApi = $this->verificarApi('GET');
-			if (!$verificarApi->success) {
-				throw new \Exception($verificarApi->message);
-			}
 			/**
 			 * 
 			 */
 			$retorno = [];
 			$DAOProdutos = new DAO\Produtos();
 			$DAOCategorias = new DAO\Categorias();
-			$categorias = $DAOCategorias->lista();
+			$categorias = $DAOCategorias->lista($filtros);
 			foreach ($categorias as $categoria) {
 				$retorno[] = [
 					'nome' => $categoria['nome'],
@@ -51,7 +34,7 @@ class Produtos extends MY_Controller
 				];
 			}
 
-			return $this->setReturn(true, 'Lista de produtos ordenado por categoria obtida com êxito.', $retorno);
+			return $this->setReturn(true, 'Lista de produtos obtida com êxito.', $retorno);
 		} catch (\Exception $e) {
 			return $this->getException($e);
 		}
