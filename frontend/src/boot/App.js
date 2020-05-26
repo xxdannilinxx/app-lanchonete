@@ -19,6 +19,10 @@ app.Util = {
     setLoading: ativar => {
         if (ativar !== false) {
             Loading.show({
+                spinner: 'QSpinnerOval',
+                spinnerColor: 'red',
+                messageColor: 'red',
+                backgroundColor: 'grey-3',
                 message: (ativar ? String(ativar) : null)
             })
             return

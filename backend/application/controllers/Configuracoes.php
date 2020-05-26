@@ -20,7 +20,7 @@ class Configuracoes extends MY_Controller
 			 * 
 			 */
 			$DAOConfiguracoes = new DAO\Configuracoes();
-			$retorno = $DAOConfiguracoes->lista();
+			$retorno = $DAOConfiguracoes->carregar();
 
 			return $this->setReturn(true, 'Configurações exportadas com sucesso.', current($retorno));
 		} catch (\Exception $e) {
