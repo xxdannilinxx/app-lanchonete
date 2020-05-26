@@ -12,13 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Categorias
 {
-
     public function __construct()
     {
-        parent::__construct();
         $this->data = new \DateTime(date('Y-m-d H:i:s'));
     }
-    
+
     /**
      * @var int
      *
@@ -36,16 +34,16 @@ class Categorias
     private $nome;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @Column(name="situacao", type="string", length=45, nullable=false)
+     * @Column(name="situacao", type="string", length=45, nullable=true, options={"default"="ativo"})
      */
-    private $situacao;
+    private $situacao = 'ativo';
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
-     * @Column(name="data", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @Column(name="data", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $data = 'CURRENT_TIMESTAMP';
 
@@ -87,11 +85,11 @@ class Categorias
     /**
      * Set situacao.
      *
-     * @param string $situacao
+     * @param string|null $situacao
      *
      * @return Categorias
      */
-    public function setSituacao($situacao)
+    public function setSituacao($situacao = null)
     {
         $this->situacao = $situacao;
 
@@ -101,7 +99,7 @@ class Categorias
     /**
      * Get situacao.
      *
-     * @return string
+     * @return string|null
      */
     public function getSituacao()
     {
@@ -111,11 +109,11 @@ class Categorias
     /**
      * Set data.
      *
-     * @param \DateTime $data
+     * @param \DateTime|null $data
      *
      * @return Categorias
      */
-    public function setData($data)
+    public function setData($data = null)
     {
         $this->data = $data;
 
@@ -125,7 +123,7 @@ class Categorias
     /**
      * Get data.
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getData()
     {

@@ -1,24 +1,17 @@
 <?php
 
-namespace Entities;
+
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Arquivos
+ * Bairros
  *
- * @Table(name="arquivos")
+ * @Table(name="bairros")
  * @Entity
  */
-class Arquivos
+class Bairros
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->data = new \DateTime(date('Y-m-d H:i:s'));
-    }
-    
     /**
      * @var int
      *
@@ -31,28 +24,28 @@ class Arquivos
     /**
      * @var string
      *
-     * @Column(name="nome", type="string", length=45, nullable=false)
+     * @Column(name="nome", type="string", length=255, nullable=false)
      */
     private $nome;
 
     /**
-     * @var string
+     * @var float
      *
-     * @Column(name="arquivo", type="blob", length=65535, nullable=false)
+     * @Column(name="valor", type="float", precision=10, scale=0, nullable=false)
      */
-    private $arquivo;
+    private $valor;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @Column(name="situacao", type="string", length=45, nullable=false)
+     * @Column(name="situacao", type="string", length=45, nullable=true, options={"default"="ativo"})
      */
-    private $situacao;
+    private $situacao = 'ativo';
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
-     * @Column(name="data", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @Column(name="data", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $data = 'CURRENT_TIMESTAMP';
 
@@ -72,7 +65,7 @@ class Arquivos
      *
      * @param string $nome
      *
-     * @return Arquivos
+     * @return Bairros
      */
     public function setNome($nome)
     {
@@ -92,37 +85,37 @@ class Arquivos
     }
 
     /**
-     * Set arquivo.
+     * Set valor.
      *
-     * @param string $arquivo
+     * @param float $valor
      *
-     * @return Arquivos
+     * @return Bairros
      */
-    public function setArquivo($arquivo)
+    public function setValor($valor)
     {
-        $this->arquivo = $arquivo;
+        $this->valor = $valor;
 
         return $this;
     }
 
     /**
-     * Get arquivo.
+     * Get valor.
      *
-     * @return string
+     * @return float
      */
-    public function getArquivo()
+    public function getValor()
     {
-        return $this->arquivo;
+        return $this->valor;
     }
 
     /**
      * Set situacao.
      *
-     * @param string $situacao
+     * @param string|null $situacao
      *
-     * @return Arquivos
+     * @return Bairros
      */
-    public function setSituacao($situacao)
+    public function setSituacao($situacao = null)
     {
         $this->situacao = $situacao;
 
@@ -132,7 +125,7 @@ class Arquivos
     /**
      * Get situacao.
      *
-     * @return string
+     * @return string|null
      */
     public function getSituacao()
     {
@@ -142,11 +135,11 @@ class Arquivos
     /**
      * Set data.
      *
-     * @param \DateTime $data
+     * @param \DateTime|null $data
      *
-     * @return Arquivos
+     * @return Bairros
      */
-    public function setData($data)
+    public function setData($data = null)
     {
         $this->data = $data;
 
@@ -156,7 +149,7 @@ class Arquivos
     /**
      * Get data.
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getData()
     {

@@ -7,18 +7,16 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Clientes
  *
- * @Table(name="clientes", uniqueConstraints={@UniqueConstraint(name="email_UNIQUE", columns={"email"}), @UniqueConstraint(name="facebook_uid_UNIQUE", columns={"facebook"}), @UniqueConstraint(name="instagram_uid_UNIQUE", columns={"instagram"}), @UniqueConstraint(name="telefone_UNIQUE", columns={"telefone"}), @UniqueConstraint(name="token_UNIQUE", columns={"token"})}, indexes={@Index(name="fk_cliente_imagem_idx", columns={"imagem"})})
+ * @Table(name="clientes", uniqueConstraints={@UniqueConstraint(name="email_UNIQUE", columns={"email"}), @UniqueConstraint(name="facebook_uid_UNIQUE", columns={"facebook"}), @UniqueConstraint(name="telefone_UNIQUE", columns={"telefone"}), @UniqueConstraint(name="token_UNIQUE", columns={"token"})})
  * @Entity
  */
 class Clientes
 {
-
     public function __construct()
     {
-        parent::__construct();
         $this->data = new \DateTime(date('Y-m-d H:i:s'));
     }
-    
+
     /**
      * @var int
      *
@@ -36,16 +34,9 @@ class Clientes
     private $email;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @Column(name="senha", type="string", length=255, nullable=false)
-     */
-    private $senha;
-
-    /**
-     * @var string
-     *
-     * @Column(name="telefone", type="string", length=45, nullable=false)
+     * @Column(name="telefone", type="string", length=45, nullable=true)
      */
     private $telefone;
 
@@ -64,25 +55,11 @@ class Clientes
     private $cpf;
 
     /**
-     * @var int|null
+     * @var string|null
      *
-     * @Column(name="instagram", type="integer", nullable=true)
-     */
-    private $instagram;
-
-    /**
-     * @var int|null
-     *
-     * @Column(name="facebook", type="integer", nullable=true)
+     * @Column(name="facebook", type="string", length=100, nullable=true)
      */
     private $facebook;
-
-    /**
-     * @var int|null
-     *
-     * @Column(name="imagem", type="integer", nullable=true)
-     */
-    private $imagem;
 
     /**
      * @var int
@@ -99,16 +76,23 @@ class Clientes
     private $token;
 
     /**
-     * @var string
+     * @var json|null
      *
-     * @Column(name="situacao", type="string", length=45, nullable=false)
+     * @Column(name="configuracoes", type="json", nullable=true)
      */
-    private $situacao;
+    private $configuracoes;
 
     /**
-     * @var \DateTime
+     * @var string|null
      *
-     * @Column(name="data", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @Column(name="situacao", type="string", length=45, nullable=true, options={"default"="ativo"})
+     */
+    private $situacao = 'ativo';
+
+    /**
+     * @var \DateTime|null
+     *
+     * @Column(name="data", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $data = 'CURRENT_TIMESTAMP';
 
@@ -148,37 +132,13 @@ class Clientes
     }
 
     /**
-     * Set senha.
-     *
-     * @param string $senha
-     *
-     * @return Clientes
-     */
-    public function setSenha($senha)
-    {
-        $this->senha = $senha;
-
-        return $this;
-    }
-
-    /**
-     * Get senha.
-     *
-     * @return string
-     */
-    public function getSenha()
-    {
-        return $this->senha;
-    }
-
-    /**
      * Set telefone.
      *
-     * @param string $telefone
+     * @param string|null $telefone
      *
      * @return Clientes
      */
-    public function setTelefone($telefone)
+    public function setTelefone($telefone = null)
     {
         $this->telefone = $telefone;
 
@@ -188,7 +148,7 @@ class Clientes
     /**
      * Get telefone.
      *
-     * @return string
+     * @return string|null
      */
     public function getTelefone()
     {
@@ -244,33 +204,9 @@ class Clientes
     }
 
     /**
-     * Set instagram.
-     *
-     * @param int|null $instagram
-     *
-     * @return Clientes
-     */
-    public function setInstagram($instagram = null)
-    {
-        $this->instagram = $instagram;
-
-        return $this;
-    }
-
-    /**
-     * Get instagram.
-     *
-     * @return int|null
-     */
-    public function getInstagram()
-    {
-        return $this->instagram;
-    }
-
-    /**
      * Set facebook.
      *
-     * @param int|null $facebook
+     * @param string|null $facebook
      *
      * @return Clientes
      */
@@ -284,35 +220,11 @@ class Clientes
     /**
      * Get facebook.
      *
-     * @return int|null
+     * @return string|null
      */
     public function getFacebook()
     {
         return $this->facebook;
-    }
-
-    /**
-     * Set imagem.
-     *
-     * @param int|null $imagem
-     *
-     * @return Clientes
-     */
-    public function setImagem($imagem = null)
-    {
-        $this->imagem = $imagem;
-
-        return $this;
-    }
-
-    /**
-     * Get imagem.
-     *
-     * @return int|null
-     */
-    public function getImagem()
-    {
-        return $this->imagem;
     }
 
     /**
@@ -364,13 +276,37 @@ class Clientes
     }
 
     /**
-     * Set situacao.
+     * Set configuracoes.
      *
-     * @param string $situacao
+     * @param json|null $configuracoes
      *
      * @return Clientes
      */
-    public function setSituacao($situacao)
+    public function setConfiguracoes($configuracoes = null)
+    {
+        $this->configuracoes = $configuracoes;
+
+        return $this;
+    }
+
+    /**
+     * Get configuracoes.
+     *
+     * @return json|null
+     */
+    public function getConfiguracoes()
+    {
+        return $this->configuracoes;
+    }
+
+    /**
+     * Set situacao.
+     *
+     * @param string|null $situacao
+     *
+     * @return Clientes
+     */
+    public function setSituacao($situacao = null)
     {
         $this->situacao = $situacao;
 
@@ -380,7 +316,7 @@ class Clientes
     /**
      * Get situacao.
      *
-     * @return string
+     * @return string|null
      */
     public function getSituacao()
     {
@@ -390,11 +326,11 @@ class Clientes
     /**
      * Set data.
      *
-     * @param \DateTime $data
+     * @param \DateTime|null $data
      *
      * @return Clientes
      */
-    public function setData($data)
+    public function setData($data = null)
     {
         $this->data = $data;
 
@@ -404,7 +340,7 @@ class Clientes
     /**
      * Get data.
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getData()
     {

@@ -3,7 +3,7 @@
 class MY_Controller extends CI_Controller
 {
 
-    public $cliente = false;
+    public $token = false;
     public $habilitarApi = false;
 
     public function __construct()
@@ -20,6 +20,11 @@ class MY_Controller extends CI_Controller
         exit($this->setSubmit(false, $mensagem));
     }
 
+    public function getPayload()
+    {
+        return json_decode($this->input->raw_input_stream, true);
+    }
+
     public function detectarMetodo(): string
     {
         $metodo = strtoupper($this->input->server('REQUEST_METHOD'));
@@ -32,7 +37,7 @@ class MY_Controller extends CI_Controller
             }
         }
 
-        if (in_array($metodo, array('GET', 'DELETE', 'POST', 'PUT'))) {
+        if (in_array($metodo, array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'))) {
             return $metodo;
         }
 
@@ -121,35 +126,59 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    public function verificarApi(string $metodo): object
+    public function verificarApi(string $metodo, bool $verificarToken = true): object
     {
         try {
             $metodoRecebido = $this->detectarMetodo();
-            $token = $_SERVER['HTTP_AUTHORIZATION'];
+            $this->token = $_SERVER['HTTP_AUTHORIZATION'];
 
             if (!$this->habilitarApi) {
                 throw new \Exception("O acesso direto ao método não é fornecido.");
+            }
+
+            if ($metodoRecebido === 'OPTIONS') {
+                throw new \Exception("Opções carregadas com sucesso.");
             }
 
             if ($metodoRecebido !== $metodo) {
                 throw new \Exception("Forma de requisição ({$metodoRecebido}) incorreta, utilizar {$metodo}.");
             }
 
-            if (!$token) {
+            if (!$verificarToken) {
+                $this->habilitarApi = false;
+                return $this->setReturn(true, 'Método verificado com sucesso.');
+            }
+
+            if (!$this->token) {
                 throw new \Exception("O token de autorização não foi recebido no cabeçalho.");
             }
 
             $DAOClientes = new DAO\Clientes();
-            $retornoToken = $DAOClientes->verificarToken($token);
+            $retornoToken = $DAOClientes->verificarToken($this->token);
             if (!$retornoToken) {
                 throw new \Exception("O token de autorização não está autenticado.");
             }
-            $this->cliente = $retornoToken;
 
             $this->habilitarApi = false;
             return $this->setReturn(true, 'API verificada com sucesso.');
         } catch (\Exception $e) {
             return $this->getException($e);
         }
+    }
+
+    public function salvar(object $objeto): object
+    {
+        try {
+            $this->em->persist($objeto);
+            $this->em->flush();
+            return $objeto;
+        } catch (Exception $e) {
+            return $this->getException($e);
+        }
+    }
+
+    public function gerarToken(): string
+    {
+        return bin2hex(openssl_random_pseudo_bytes(16));
     }
 }

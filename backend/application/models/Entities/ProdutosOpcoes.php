@@ -12,13 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ProdutosOpcoes
 {
-
     public function __construct()
     {
-        parent::__construct();
         $this->data = new \DateTime(date('Y-m-d H:i:s'));
     }
-    
+
     /**
      * @var int
      *
@@ -64,28 +62,25 @@ class ProdutosOpcoes
     private $produto;
 
     /**
-     * @var string
+     * @var int
      *
-     * @Column(name="situacao", type="string", length=45, nullable=false)
-     */
-    private $situacao;
-
-    /**
-     * @var \DateTime
-     *
-     * @Column(name="data", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
-     */
-    private $data = 'CURRENT_TIMESTAMP';
-
-    /**
-     * @var \Opcoes
-     *
-     * @ManyToOne(targetEntity="Opcoes")
-     * @JoinColumns({
-     *   @JoinColumn(name="opcao", referencedColumnName="id")
-     * })
+     * @Column(name="opcao", type="integer", nullable=false)
      */
     private $opcao;
+
+    /**
+     * @var string|null
+     *
+     * @Column(name="situacao", type="string", length=45, nullable=true, options={"default"="ativo"})
+     */
+    private $situacao = 'ativo';
+
+    /**
+     * @var \DateTime|null
+     *
+     * @Column(name="data", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $data = 'CURRENT_TIMESTAMP';
 
 
     /**
@@ -219,61 +214,13 @@ class ProdutosOpcoes
     }
 
     /**
-     * Set situacao.
-     *
-     * @param string $situacao
-     *
-     * @return ProdutosOpcoes
-     */
-    public function setSituacao($situacao)
-    {
-        $this->situacao = $situacao;
-
-        return $this;
-    }
-
-    /**
-     * Get situacao.
-     *
-     * @return string
-     */
-    public function getSituacao()
-    {
-        return $this->situacao;
-    }
-
-    /**
-     * Set data.
-     *
-     * @param \DateTime $data
-     *
-     * @return ProdutosOpcoes
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-
-        return $this;
-    }
-
-    /**
-     * Get data.
-     *
-     * @return \DateTime
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
      * Set opcao.
      *
-     * @param \Opcoes|null $opcao
+     * @param int $opcao
      *
      * @return ProdutosOpcoes
      */
-    public function setOpcao(\Opcoes $opcao = null)
+    public function setOpcao($opcao)
     {
         $this->opcao = $opcao;
 
@@ -283,10 +230,58 @@ class ProdutosOpcoes
     /**
      * Get opcao.
      *
-     * @return \Opcoes|null
+     * @return int
      */
     public function getOpcao()
     {
         return $this->opcao;
+    }
+
+    /**
+     * Set situacao.
+     *
+     * @param string|null $situacao
+     *
+     * @return ProdutosOpcoes
+     */
+    public function setSituacao($situacao = null)
+    {
+        $this->situacao = $situacao;
+
+        return $this;
+    }
+
+    /**
+     * Get situacao.
+     *
+     * @return string|null
+     */
+    public function getSituacao()
+    {
+        return $this->situacao;
+    }
+
+    /**
+     * Set data.
+     *
+     * @param \DateTime|null $data
+     *
+     * @return ProdutosOpcoes
+     */
+    public function setData($data = null)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Get data.
+     *
+     * @return \DateTime|null
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }

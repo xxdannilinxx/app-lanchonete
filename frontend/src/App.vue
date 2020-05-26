@@ -1,40 +1,49 @@
 <template>
   <div id="q-app">
-    <keep-alive>
-      <router-view />
-    </keep-alive>
+    <div>
+      <keep-alive>
+        <router-view />
+      </keep-alive>
+    </div>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
 import store from './store'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   store,
-  name: 'App',
-  created () {
-    /**
-    * checa conexão com a internet
-    */
-    window.addEventListener('online', () => {
-      this.$app.Util.setLoading(false)
-    })
-    window.addEventListener('offline', () => {
-      this.$app.Util.setLoading('Verifique sua conexão com a internet')
-    })
-    /**
-     * filtro de moeda em real
-     */
-    Vue.filter('moeda', function (valor) {
-      return Number(valor).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
-    })
-    /**
-     *
-     */
-    console.log('App iniciado com sucesso!')
-    console.log('Backend: ' + this.$app.baseURL)
-    console.log('Versão: ' + this.$app.version)
+  name: 'Main',
+  computed: {
+    ...mapGetters('clientes', [
+      'cliente', 'autenticado'
+    ])
+  },
+  methods: {
+    ...mapActions('clientes', [
+      'autenticar'
+    ])
+  },
+  async mounted () {
+    try {
+      /**
+       * Verifica autenticação
+       */
+      if (!this.cliente) {
+        this.$router.push('/entrar')
+        return false
+      }
+      if (!this.autenticado) {
+        await this.autenticar()
+      }
+      /**
+       * Verifica configurações impostas pelo cliente
+       */
+      this.$app.aplicarConfiguracoes(this.cliente)
+    } catch (error) {
+      this.$app.Util.setMessage(error, 'fail')
+    }
   }
 }
 </script>

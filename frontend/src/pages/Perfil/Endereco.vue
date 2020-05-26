@@ -1,23 +1,25 @@
 <template>
-  <q-page class="flex bg-white-3 column">
-    <h3>Endereço</h3>
-    <ul>
-      <li
-        a
-        clickable
-        to="/xd"
-      >Teste 1</li>
-      <li
-        a
-        clickable
-        to="/xd2"
-      >Teste 1</li>
-    </ul>
-  </q-page>
+  <div class="q-pa-md">
+    <q-list>
+      <q-expansion-item
+        expand-separator
+        class="q-mb-lg text-h6"
+        icon="keyboard_arrow_left"
+        label="Endereços"
+        header-class="text-red"
+        expand-icon-class="hidden"
+        router-link
+        :to="{name: 'perfil'}"
+      >
+      </q-expansion-item>
+    </q-list>
+
+    <div>Olá</div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'Perfil'
+  name: 'Enderecos'
 }
 </script>

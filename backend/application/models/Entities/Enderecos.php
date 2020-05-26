@@ -12,13 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Enderecos
 {
-
     public function __construct()
     {
-        parent::__construct();
         $this->data = new \DateTime(date('Y-m-d H:i:s'));
     }
-    
+
     /**
      * @var int
      *
@@ -50,28 +48,25 @@ class Enderecos
     private $bairro;
 
     /**
-     * @var string
+     * @var int
      *
-     * @Column(name="situacao", type="string", length=45, nullable=false)
-     */
-    private $situacao;
-
-    /**
-     * @var \DateTime
-     *
-     * @Column(name="data", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
-     */
-    private $data = 'CURRENT_TIMESTAMP';
-
-    /**
-     * @var \Clientes
-     *
-     * @ManyToOne(targetEntity="Clientes")
-     * @JoinColumns({
-     *   @JoinColumn(name="cliente", referencedColumnName="id")
-     * })
+     * @Column(name="cliente", type="integer", nullable=false)
      */
     private $cliente;
+
+    /**
+     * @var string|null
+     *
+     * @Column(name="situacao", type="string", length=45, nullable=true, options={"default"="ativo"})
+     */
+    private $situacao = 'ativo';
+
+    /**
+     * @var \DateTime|null
+     *
+     * @Column(name="data", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $data = 'CURRENT_TIMESTAMP';
 
 
     /**
@@ -157,61 +152,13 @@ class Enderecos
     }
 
     /**
-     * Set situacao.
-     *
-     * @param string $situacao
-     *
-     * @return Enderecos
-     */
-    public function setSituacao($situacao)
-    {
-        $this->situacao = $situacao;
-
-        return $this;
-    }
-
-    /**
-     * Get situacao.
-     *
-     * @return string
-     */
-    public function getSituacao()
-    {
-        return $this->situacao;
-    }
-
-    /**
-     * Set data.
-     *
-     * @param \DateTime $data
-     *
-     * @return Enderecos
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-
-        return $this;
-    }
-
-    /**
-     * Get data.
-     *
-     * @return \DateTime
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
      * Set cliente.
      *
-     * @param \Clientes|null $cliente
+     * @param int $cliente
      *
      * @return Enderecos
      */
-    public function setCliente(\Clientes $cliente = null)
+    public function setCliente($cliente)
     {
         $this->cliente = $cliente;
 
@@ -221,10 +168,58 @@ class Enderecos
     /**
      * Get cliente.
      *
-     * @return \Clientes|null
+     * @return int
      */
     public function getCliente()
     {
         return $this->cliente;
+    }
+
+    /**
+     * Set situacao.
+     *
+     * @param string|null $situacao
+     *
+     * @return Enderecos
+     */
+    public function setSituacao($situacao = null)
+    {
+        $this->situacao = $situacao;
+
+        return $this;
+    }
+
+    /**
+     * Get situacao.
+     *
+     * @return string|null
+     */
+    public function getSituacao()
+    {
+        return $this->situacao;
+    }
+
+    /**
+     * Set data.
+     *
+     * @param \DateTime|null $data
+     *
+     * @return Enderecos
+     */
+    public function setData($data = null)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Get data.
+     *
+     * @return \DateTime|null
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }

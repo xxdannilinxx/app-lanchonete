@@ -12,12 +12,12 @@ class App extends MY_Controller
 	public function gerarEntities(): object
 	{
 		try {
-            $doctrine = new Doctrine();
-            $resultado = $doctrine->gerarEntities();
+			$doctrine = new Doctrine();
+			$resultado = $doctrine->gerarEntities();
 
-            if (!$resultado) {
-                throw new \Exception('Erro desconhecido ao gerar entities.');
-            }
+			if (!$resultado) {
+				throw new \Exception('Erro desconhecido ao gerar entities.');
+			}
 
 			return $this->setReturn(true, 'Entities geradas com sucesso.');
 		} catch (\Exception $e) {

@@ -16,14 +16,10 @@ class Produtos extends AbstractModel
     {
         $qb = $this->em->createQueryBuilder();
 
-        $qb->select('p.id, p.nome, p.descricao, p.valor, p.categoria')
+        $qb->select('p.id, p.nome, p.descricao, p.valor, p.categoria, p.imagem')
             ->from('Entities\Produtos', 'p');
-            if (!empty($filtros['categoria'])) {
-                $qb->where('p.categoria = ?1')
-                   ->setParameter(1, $filtros['categoria']);
-            }
-        $qb->andWhere('p.situacao = ?0')
-           ->setParameter(0, 'ativo');
+        $qb->andWhere("p.situacao = 'ativo'");
+        $this->usarFiltro($qb, $filtros);
 
         return $qb->getQuery()->getArrayResult();
     }

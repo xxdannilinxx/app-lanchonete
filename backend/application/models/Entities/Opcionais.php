@@ -12,13 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Opcionais
 {
-
     public function __construct()
     {
-        parent::__construct();
         $this->data = new \DateTime(date('Y-m-d H:i:s'));
     }
-    
+
     /**
      * @var int
      *
@@ -50,16 +48,16 @@ class Opcionais
     private $opcao;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @Column(name="situacao", type="string", length=45, nullable=false)
+     * @Column(name="situacao", type="string", length=45, nullable=true, options={"default"="ativo"})
      */
-    private $situacao;
+    private $situacao = 'ativo';
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
-     * @Column(name="data", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @Column(name="data", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $data = 'CURRENT_TIMESTAMP';
 
@@ -149,11 +147,11 @@ class Opcionais
     /**
      * Set situacao.
      *
-     * @param string $situacao
+     * @param string|null $situacao
      *
      * @return Opcionais
      */
-    public function setSituacao($situacao)
+    public function setSituacao($situacao = null)
     {
         $this->situacao = $situacao;
 
@@ -163,7 +161,7 @@ class Opcionais
     /**
      * Get situacao.
      *
-     * @return string
+     * @return string|null
      */
     public function getSituacao()
     {
@@ -173,11 +171,11 @@ class Opcionais
     /**
      * Set data.
      *
-     * @param \DateTime $data
+     * @param \DateTime|null $data
      *
      * @return Opcionais
      */
-    public function setData($data)
+    public function setData($data = null)
     {
         $this->data = $data;
 
@@ -187,7 +185,7 @@ class Opcionais
     /**
      * Get data.
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getData()
     {

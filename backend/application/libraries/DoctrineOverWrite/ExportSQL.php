@@ -27,14 +27,14 @@ class ExportSQL implements SQLLogger
     public function startQuery($sql, array $params = null, array $types = null): void
     {
         debug("SQL_QUERY: {$sql}");
+        if ($params) {
+            debug($params);
+        }
     }
 
     /**
      * {@inheritdoc}
      */
     public function stopQuery(): void
-    {
-
-    }
-
+    { }
 }

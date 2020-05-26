@@ -1,25 +1,9 @@
-import { http } from '../../api/loja'
+import { app as api } from '../../boot/App'
 
 export const actions = {
-    lista ({ commit }) {
-        return http.get('produtos/api/lista')
-            .then(response => {
-                if (response.data.success) {
-                    commit('SET_ITEMS', response.data.data)
-                }
-                return response.data
-            })
-            .catch(response => {
-                commit('SET_ITEMS', [])
-                return {
-                    success: false,
-                    message: String(response),
-                    data: []
-                }
-            })
-            .then(response => {
-                commit('SET_LOADED', true)
-                return response
-            })
+    async lista ({ commit }, dados) {
+        const data = await api.service('produtos/api/lista', dados, 'GET')
+        commit('SET_ITEMS', data)
+        return data
     }
 }

@@ -12,13 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Configuracoes
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->data = new \DateTime(date('Y-m-d H:i:s'));
-    }
-    
     /**
      * @var int
      *
@@ -62,6 +55,20 @@ class Configuracoes
      * @Column(name="site", type="string", length=255, nullable=false)
      */
     private $site;
+
+    /**
+     * @var string
+     *
+     * @Column(name="facebookUid", type="string", length=100, nullable=false)
+     */
+    private $facebookuid;
+
+    /**
+     * @var int|null
+     *
+     * @Column(name="aberto", type="integer", nullable=true)
+     */
+    private $aberto = '0';
 
 
     /**
@@ -192,5 +199,53 @@ class Configuracoes
     public function getSite()
     {
         return $this->site;
+    }
+
+    /**
+     * Set facebookuid.
+     *
+     * @param string $facebookuid
+     *
+     * @return Configuracoes
+     */
+    public function setFacebookuid($facebookuid)
+    {
+        $this->facebookuid = $facebookuid;
+
+        return $this;
+    }
+
+    /**
+     * Get facebookuid.
+     *
+     * @return string
+     */
+    public function getFacebookuid()
+    {
+        return $this->facebookuid;
+    }
+
+    /**
+     * Set aberto.
+     *
+     * @param int|null $aberto
+     *
+     * @return Configuracoes
+     */
+    public function setAberto($aberto = null)
+    {
+        $this->aberto = $aberto;
+
+        return $this;
+    }
+
+    /**
+     * Get aberto.
+     *
+     * @return int|null
+     */
+    public function getAberto()
+    {
+        return $this->aberto;
     }
 }

@@ -22,6 +22,9 @@ class Doctrine
         $loader = new ClassLoader('DoctrineOverWrite', APPPATH . 'libraries');
         $loader->register();
 
+        $entityClassLoader = new ClassLoader('EntitiesGenerate', APPPATH . 'models');
+        $entityClassLoader->register();
+
         $entityClassLoader = new ClassLoader('Entities', APPPATH . 'models');
         $entityClassLoader->register();
 
@@ -89,7 +92,8 @@ class Doctrine
             $generator->setAnnotationPrefix("");
             $generator->setGenerateStubMethods(true);
             $generator->setGenerateAnnotations(true);
-            $generator->generate($metadata, APPPATH . "models/Entities");
+            $generator->generate($metadata, APPPATH . "models/EntitiesGenerate");
+            return true;
         } catch (Exception $e) {
             return $e->getMessage();
         }

@@ -15,12 +15,14 @@ class Categorias extends MY_Controller
 			$verificarApi = $this->verificarApi('GET');
 			if (!$verificarApi->success) {
 				throw new \Exception($verificarApi->message);
-            }
-            /**
-             * 
-             */
-            $filtros = ($filtros ? $filtros : $this->input->get());
-
+			}
+			/**
+			 * 
+			 */
+			$filtros = ($filtros ? $filtros : $this->input->get());
+			/**
+			 * 
+			 */
 			$DAOCategorias = new DAO\Categorias();
 			$retorno = $DAOCategorias->lista($filtros);
 

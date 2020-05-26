@@ -30,7 +30,7 @@ class Produtos extends MY_Controller
 			foreach ($categorias as $categoria) {
 				$retorno[] = [
 					'nome' => $categoria['nome'],
-					'produtos' => $DAOProdutos->lista(['categoria' => $categoria['id']])
+					'produtos' => $DAOProdutos->lista(['p.categoria' => $categoria['id']])
 				];
 			}
 

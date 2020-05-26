@@ -15,4 +15,21 @@ class AbstractModel
         $this->CI = &get_instance();
         $this->em = ($em ? $em : $this->CI->doctrine->em);
     }
+
+    public function usarFiltro(object $qb, array $filtros = []): object
+    {
+        foreach ($filtros as $filtro => $valor) {
+            switch ($filtro) {
+                case 'max':
+                    $qb->setMaxResults($valor);
+                    break;
+                case 'offset':
+                    $qb->setFirstResult($valor);
+                    break;
+                default:
+                    $qb->andWhere("{$filtro} = '{$valor}'");
+            }
+        }
+        return $qb;
+    }
 }

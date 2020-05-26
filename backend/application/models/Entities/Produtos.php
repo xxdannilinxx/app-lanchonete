@@ -7,18 +7,16 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Produtos
  *
- * @Table(name="produtos", indexes={@Index(name="fk_categoria_produto_idx", columns={"categoria"}), @Index(name="fk_imagem_arquivo_idx", columns={"imagem"})})
+ * @Table(name="produtos", indexes={@Index(name="fk_categoria_produto_idx", columns={"categoria"})})
  * @Entity
  */
 class Produtos
 {
-
     public function __construct()
     {
-        parent::__construct();
         $this->data = new \DateTime(date('Y-m-d H:i:s'));
     }
-    
+
     /**
      * @var int
      *
@@ -57,28 +55,25 @@ class Produtos
     private $valor = '0';
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @Column(name="situacao", type="string", length=45, nullable=false)
-     */
-    private $situacao;
-
-    /**
-     * @var \DateTime
-     *
-     * @Column(name="data", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
-     */
-    private $data = 'CURRENT_TIMESTAMP';
-
-    /**
-     * @var \Arquivos
-     *
-     * @ManyToOne(targetEntity="Arquivos")
-     * @JoinColumns({
-     *   @JoinColumn(name="imagem", referencedColumnName="id")
-     * })
+     * @Column(name="imagem", type="string", length=500, nullable=true)
      */
     private $imagem;
+
+    /**
+     * @var string|null
+     *
+     * @Column(name="situacao", type="string", length=45, nullable=true, options={"default"="ativo"})
+     */
+    private $situacao = 'ativo';
+
+    /**
+     * @var \DateTime|null
+     *
+     * @Column(name="data", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $data = 'CURRENT_TIMESTAMP';
 
 
     /**
@@ -188,61 +183,13 @@ class Produtos
     }
 
     /**
-     * Set situacao.
-     *
-     * @param string $situacao
-     *
-     * @return Produtos
-     */
-    public function setSituacao($situacao)
-    {
-        $this->situacao = $situacao;
-
-        return $this;
-    }
-
-    /**
-     * Get situacao.
-     *
-     * @return string
-     */
-    public function getSituacao()
-    {
-        return $this->situacao;
-    }
-
-    /**
-     * Set data.
-     *
-     * @param \DateTime $data
-     *
-     * @return Produtos
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-
-        return $this;
-    }
-
-    /**
-     * Get data.
-     *
-     * @return \DateTime
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
      * Set imagem.
      *
-     * @param \Arquivos|null $imagem
+     * @param string|null $imagem
      *
      * @return Produtos
      */
-    public function setImagem(\Arquivos $imagem = null)
+    public function setImagem($imagem = null)
     {
         $this->imagem = $imagem;
 
@@ -252,10 +199,58 @@ class Produtos
     /**
      * Get imagem.
      *
-     * @return \Arquivos|null
+     * @return string|null
      */
     public function getImagem()
     {
         return $this->imagem;
+    }
+
+    /**
+     * Set situacao.
+     *
+     * @param string|null $situacao
+     *
+     * @return Produtos
+     */
+    public function setSituacao($situacao = null)
+    {
+        $this->situacao = $situacao;
+
+        return $this;
+    }
+
+    /**
+     * Get situacao.
+     *
+     * @return string|null
+     */
+    public function getSituacao()
+    {
+        return $this->situacao;
+    }
+
+    /**
+     * Set data.
+     *
+     * @param \DateTime|null $data
+     *
+     * @return Produtos
+     */
+    public function setData($data = null)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Get data.
+     *
+     * @return \DateTime|null
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }

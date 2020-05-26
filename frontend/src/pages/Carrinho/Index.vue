@@ -1,7 +1,5 @@
 <template>
-  <q-page class="flex bg-white-3 column">
-    <h3>Carrinho</h3>
-  </q-page>
+  <div></div>
 </template>
 
 <script>

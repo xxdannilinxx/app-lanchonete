@@ -15,11 +15,11 @@ class Clientes extends AbstractModel
     public function lista(array $filtros = []): array
     {
         $qb = $this->em->createQueryBuilder();
-        
+
         $qb->select('c')
-            ->from('Entities\Clientes', 'c')
-            ->where('c.situacao = ?0')
-            ->setParameter(0, 'ativo');
+            ->from('Entities\Clientes', 'c');
+        $qb->where("c.situacao = 'ativo'");
+        $this->usarFiltro($qb, $filtros);
 
         return $qb->getQuery()->getArrayResult();
     }
@@ -28,12 +28,10 @@ class Clientes extends AbstractModel
     {
         $qb = $this->em->createQueryBuilder();
 
-        $qb->select('c')
+        $qb->select('c.token')
             ->from('Entities\Clientes', 'c')
-            ->where('c.situacao = ?0')
-            ->setParameter(0, 'ativo')
-            ->andWhere('c.token = ?1')
-            ->setParameter(1, $token);
+            ->where("c.situacao = 'ativo'")
+            ->andWhere("c.token = '{$token}'");
 
         return $qb->getQuery()->getArrayResult();
     }
