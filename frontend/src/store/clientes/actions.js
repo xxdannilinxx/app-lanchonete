@@ -6,7 +6,7 @@ export const actions = {
             payload.FB.api('/me', 'GET', { fields: 'id,name,email' },
                 userInformation => {
                     if (userInformation.error) {
-                        reject('Não foi possível integrar sua conta com o facebook')
+                        reject('Não foi possível integrar sua conta com o facebook.')
                     }
                     commit('SET_DADOS_SDK', userInformation)
                     resolve(userInformation)

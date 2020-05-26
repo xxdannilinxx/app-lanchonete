@@ -19,9 +19,6 @@ app.Util = {
     setLoading: ativar => {
         if (ativar !== false) {
             Loading.show({
-                spinnerColor: 'red',
-                backgroundColor: 'white',
-                messageColor: 'red',
                 message: (ativar ? String(ativar) : null)
             })
             return

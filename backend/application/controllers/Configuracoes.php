@@ -9,10 +9,10 @@ class Configuracoes extends MY_Controller
 		parent::__construct();
 	}
 
-	public function lista(): object
+	public function carregar(): object
 	{
 		try {
-			$verificarApi = $this->verificarApi('GET');
+			$verificarApi = $this->verificarApi('GET', false);
 			if (!$verificarApi->success) {
 				throw new \Exception($verificarApi->message);
 			}

@@ -12,7 +12,7 @@ class Configuracoes extends AbstractModel
         parent::__construct();
     }
 
-    public function lista(): array
+    public function carregar(): array
     {
         $qb = $this->em->createQueryBuilder();
 
