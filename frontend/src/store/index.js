@@ -13,21 +13,5 @@ export default new Vuex.Store({
         produtos,
         clientes
     },
-    strict: process.env.NODE_ENV !== 'production',
-    state: {
-        loading: false
-    },
-    getters: {
-        loading: state => state.loading
-    },
-    actions: {
-        setLoading ({ commit }, status) {
-            commit('SET_LOADING', status)
-        }
-    },
-    mutations: {
-        SET_LOADING (state, status) {
-            state.loading = status
-        }
-    }
+    strict: process.env.NODE_ENV !== 'production'
 })

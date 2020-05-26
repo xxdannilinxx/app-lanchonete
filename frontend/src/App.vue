@@ -16,17 +16,23 @@ export default {
   store,
   name: 'Main',
   computed: {
-    ...mapGetters('clientes', [
-      'cliente', 'autenticado'
-    ])
+    ...mapGetters({
+      cliente: 'clientes/cliente',
+      autenticado: 'clientes/autenticado'
+    })
   },
   methods: {
-    ...mapActions('clientes', [
-      'autenticar'
-    ])
+    ...mapActions({
+      autenticar: 'clientes/autenticar',
+      carregar: 'configuracoes/carregar'
+    })
   },
   async mounted () {
     try {
+      /**
+       * Carrega configurações da loja
+       */
+      await this.carregar()
       /**
        * Verifica autenticação
        */

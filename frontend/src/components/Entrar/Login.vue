@@ -115,16 +115,8 @@ export default {
     ...mapActions({
       verificarFacebookSdk: 'clientes/verificarFacebookSdk',
       alterar: 'clientes/alterar',
-      sair: 'clientes/sair',
-      carregarConfiguracoes: 'configuracoes/carregar'
+      sair: 'clientes/sair'
     })
-  },
-  async mounted () {
-    try {
-      await this.carregarConfiguracoes()
-    } catch (error) {
-      this.$app.Util.setMessage(error, 'fail')
-    }
   }
 }
 </script>

@@ -202,30 +202,18 @@ export default {
       }
     },
     async atualizar (pronto) {
-      this.carregarConfig()
       this.final = false
       this.$refs.infiniteScroll.stop()
       this.$refs.infiniteScroll.reset()
-      setTimeout(async () => {
+      setTimeout(() => {
         this.categorias = []
         this.$refs.infiniteScroll.resume()
         pronto()
       }, 1000)
     },
-    async carregarConfig () {
-      try {
-        await this.carregarConfiguracoes()
-      } catch (error) {
-        this.$app.Util.setMessage(error, 'fail')
-      }
-    },
     ...mapActions({
-      lista: 'produtos/lista',
-      carregarConfiguracoes: 'configuracoes/carregar'
+      lista: 'produtos/lista'
     })
-  },
-  async mounted () {
-    this.carregarConfig()
   }
 }
 </script>
