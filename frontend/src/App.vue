@@ -13,8 +13,25 @@ import store from './store'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  store,
   name: 'Main',
+  store,
+  created () {
+    try {
+      this.carregar()
+      if (!this.cliente) {
+        if (this.$route.name !== 'entrar') {
+          this.$router.push('/entrar')
+        }
+        return false
+      }
+      if (!this.autenticado) {
+        this.autenticar()
+      }
+      this.$app.aplicarConfiguracoes(this.cliente)
+    } catch (error) {
+      this.$app.Util.setMessage(error, 'fail')
+    }
+  },
   computed: {
     ...mapGetters({
       cliente: 'clientes/cliente',
@@ -26,30 +43,6 @@ export default {
       autenticar: 'clientes/autenticar',
       carregar: 'configuracoes/carregar'
     })
-  },
-  async mounted () {
-    try {
-      /**
-       * Carrega configurações da loja
-       */
-      await this.carregar()
-      /**
-       * Verifica autenticação
-       */
-      if (!this.cliente) {
-        this.$router.push('/entrar')
-        return false
-      }
-      if (!this.autenticado) {
-        await this.autenticar()
-      }
-      /**
-       * Verifica configurações impostas pelo cliente
-       */
-      this.$app.aplicarConfiguracoes(this.cliente)
-    } catch (error) {
-      this.$app.Util.setMessage(error, 'fail')
-    }
   }
 }
 </script>

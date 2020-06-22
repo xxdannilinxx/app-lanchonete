@@ -8,18 +8,22 @@
         label="Perfil"
         header-class="text-red"
         expand-icon-class="hidden"
-        router-link
-        :to="{name: 'perfil'}"
+        @click="$router.go(-1)"
       >
       </q-expansion-item>
     </q-list>
 
-    <div>Olá</div>
+    <EditarPerfil />
   </div>
 </template>
 
 <script>
+import EditarPerfil from '../../components/perfil/editar'
+
 export default {
-  name: 'Editar'
+  name: 'Editar',
+  components: {
+    EditarPerfil
+  }
 }
 </script>

@@ -183,7 +183,10 @@ export default {
     })
   },
   methods: {
-    carregar (index, pronto) {
+    ...mapActions({
+      lista: 'produtos/lista'
+    }),
+    async carregar (index, pronto) {
       try {
         setTimeout(async () => {
           await this.lista({
@@ -210,10 +213,7 @@ export default {
         this.$refs.infiniteScroll.resume()
         pronto()
       }, 1000)
-    },
-    ...mapActions({
-      lista: 'produtos/lista'
-    })
+    }
   }
 }
 </script>

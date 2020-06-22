@@ -5,12 +5,12 @@ namespace Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProdutosOpcoes
+ * PedidosItem
  *
- * @Table(name="produtos_opcoes", indexes={@Index(name="fk_produto_produto_idx", columns={"produto"}), @Index(name="fk_produtos_opcoes_idx", columns={"opcao"})})
+ * @Table(name="pedidos_item", indexes={@Index(name="fk_item_pedido_idx", columns={"pedido"}), @Index(name="fk_item_produto_idx", columns={"produto"})})
  * @Entity
  */
-class ProdutosOpcoes
+class PedidosItem
 {
     public function __construct()
     {
@@ -27,32 +27,32 @@ class ProdutosOpcoes
     private $id;
 
     /**
-     * @var float|null
+     * @var float
      *
-     * @Column(name="valor", type="float", precision=10, scale=0, nullable=true)
+     * @Column(name="valor", type="float", precision=10, scale=0, nullable=false)
      */
-    private $valor = '0';
+    private $valor;
+
+    /**
+     * @var string
+     *
+     * @Column(name="descricao", type="string", length=255, nullable=false)
+     */
+    private $descricao;
 
     /**
      * @var int
      *
-     * @Column(name="minimo", type="integer", nullable=false)
+     * @Column(name="quantidade", type="integer", nullable=false)
      */
-    private $minimo = '0';
+    private $quantidade;
 
     /**
-     * @var int
+     * @var string|null
      *
-     * @Column(name="maximo", type="integer", nullable=false)
+     * @Column(name="observacao", type="string", length=255, nullable=true)
      */
-    private $maximo = '0';
-
-    /**
-     * @var int
-     *
-     * @Column(name="obrigatorio", type="integer", nullable=false)
-     */
-    private $obrigatorio = '0';
+    private $observacao;
 
     /**
      * @var string|null
@@ -69,14 +69,14 @@ class ProdutosOpcoes
     private $data = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var \Entities\Opcoes
+     * @var \Entities\Pedidos
      *
-     * @ManyToOne(targetEntity="Opcoes")
+     * @ManyToOne(targetEntity="Pedidos")
      * @JoinColumns({
-     *   @JoinColumn(name="opcao", referencedColumnName="id")
+     *   @JoinColumn(name="pedido", referencedColumnName="id")
      * })
      */
-    private $opcao;
+    private $pedido;
 
     /**
      * @var \Entities\Produtos
@@ -102,11 +102,11 @@ class ProdutosOpcoes
     /**
      * Set valor.
      *
-     * @param float|null $valor
+     * @param float $valor
      *
-     * @return ProdutosOpcoes
+     * @return PedidosItem
      */
-    public function setValor($valor = null)
+    public function setValor($valor)
     {
         $this->valor = $valor;
 
@@ -116,7 +116,7 @@ class ProdutosOpcoes
     /**
      * Get valor.
      *
-     * @return float|null
+     * @return float
      */
     public function getValor()
     {
@@ -124,75 +124,75 @@ class ProdutosOpcoes
     }
 
     /**
-     * Set minimo.
+     * Set descricao.
      *
-     * @param int $minimo
+     * @param string $descricao
      *
-     * @return ProdutosOpcoes
+     * @return PedidosItem
      */
-    public function setMinimo($minimo)
+    public function setDescricao($descricao)
     {
-        $this->minimo = $minimo;
+        $this->descricao = $descricao;
 
         return $this;
     }
 
     /**
-     * Get minimo.
+     * Get descricao.
      *
-     * @return int
+     * @return string
      */
-    public function getMinimo()
+    public function getDescricao()
     {
-        return $this->minimo;
+        return $this->descricao;
     }
 
     /**
-     * Set maximo.
+     * Set quantidade.
      *
-     * @param int $maximo
+     * @param int $quantidade
      *
-     * @return ProdutosOpcoes
+     * @return PedidosItem
      */
-    public function setMaximo($maximo)
+    public function setQuantidade($quantidade)
     {
-        $this->maximo = $maximo;
+        $this->quantidade = $quantidade;
 
         return $this;
     }
 
     /**
-     * Get maximo.
+     * Get quantidade.
      *
      * @return int
      */
-    public function getMaximo()
+    public function getQuantidade()
     {
-        return $this->maximo;
+        return $this->quantidade;
     }
 
     /**
-     * Set obrigatorio.
+     * Set observacao.
      *
-     * @param int $obrigatorio
+     * @param string|null $observacao
      *
-     * @return ProdutosOpcoes
+     * @return PedidosItem
      */
-    public function setObrigatorio($obrigatorio)
+    public function setObservacao($observacao = null)
     {
-        $this->obrigatorio = $obrigatorio;
+        $this->observacao = $observacao;
 
         return $this;
     }
 
     /**
-     * Get obrigatorio.
+     * Get observacao.
      *
-     * @return int
+     * @return string|null
      */
-    public function getObrigatorio()
+    public function getObservacao()
     {
-        return $this->obrigatorio;
+        return $this->observacao;
     }
 
     /**
@@ -200,7 +200,7 @@ class ProdutosOpcoes
      *
      * @param string|null $situacao
      *
-     * @return ProdutosOpcoes
+     * @return PedidosItem
      */
     public function setSituacao($situacao = null)
     {
@@ -224,7 +224,7 @@ class ProdutosOpcoes
      *
      * @param \DateTime|null $data
      *
-     * @return ProdutosOpcoes
+     * @return PedidosItem
      */
     public function setData($data = null)
     {
@@ -244,27 +244,27 @@ class ProdutosOpcoes
     }
 
     /**
-     * Set opcao.
+     * Set pedido.
      *
-     * @param \Entities\Opcoes|null $opcao
+     * @param \Entities\Pedidos|null $pedido
      *
-     * @return ProdutosOpcoes
+     * @return PedidosItem
      */
-    public function setOpcao(\Entities\Opcoes $opcao = null)
+    public function setPedido(\Entities\Pedidos $pedido = null)
     {
-        $this->opcao = $opcao;
+        $this->pedido = $pedido;
 
         return $this;
     }
 
     /**
-     * Get opcao.
+     * Get pedido.
      *
-     * @return \Entities\Opcoes|null
+     * @return \Entities\Pedidos|null
      */
-    public function getOpcao()
+    public function getPedido()
     {
-        return $this->opcao;
+        return $this->pedido;
     }
 
     /**
@@ -272,7 +272,7 @@ class ProdutosOpcoes
      *
      * @param \Entities\Produtos|null $produto
      *
-     * @return ProdutosOpcoes
+     * @return PedidosItem
      */
     public function setProduto(\Entities\Produtos $produto = null)
     {

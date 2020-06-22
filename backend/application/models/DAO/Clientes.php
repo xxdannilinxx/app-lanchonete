@@ -12,19 +12,7 @@ class Clientes extends AbstractModel
         parent::__construct();
     }
 
-    public function lista(array $filtros = []): array
-    {
-        $qb = $this->em->createQueryBuilder();
-
-        $qb->select('c')
-            ->from('Entities\Clientes', 'c');
-        $qb->where("c.situacao = 'ativo'");
-        $this->usarFiltro($qb, $filtros);
-
-        return $qb->getQuery()->getArrayResult();
-    }
-
-    public function verificarToken(string $token): array
+    public function verificarToken(string $token, int $nivel): array
     {
         $qb = $this->em->createQueryBuilder();
 
@@ -32,6 +20,9 @@ class Clientes extends AbstractModel
             ->from('Entities\Clientes', 'c')
             ->where("c.situacao = 'ativo'")
             ->andWhere("c.token = '{$token}'");
+        if ($nivel > 0) {
+            $qb->andWhere("c.nivel = '{$nivel}'");
+        }
 
         return $qb->getQuery()->getArrayResult();
     }

@@ -53,7 +53,7 @@ module.exports = function (/* ctx */) {
       directives: [],
 
       // Quasar plugins
-      plugins: ['Dialog', 'Notify', 'Loading']
+      plugins: ['Dialog', 'Notify', 'Loading', 'BottomSheet']
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie

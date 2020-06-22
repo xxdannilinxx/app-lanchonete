@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Configuracoes
 {
+    public function __construct()
+    {
+        $this->data = new \DateTime(date('Y-m-d H:i:s'));
+    }
+
     /**
      * @var int
      *

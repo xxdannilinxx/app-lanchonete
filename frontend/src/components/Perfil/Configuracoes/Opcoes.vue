@@ -43,17 +43,27 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'ConfiguracoesOpcoes',
+  name: 'Opcoes',
   data () {
     return {
       escuro: this.$q.dark.isActive,
       configuracoes: {}
     }
   },
+  computed: {
+    ...mapGetters('clientes', [
+      'cliente'
+    ])
+  },
+  methods: {
+    ...mapActions('clientes', [
+      'alterar'
+    ])
+  },
   watch: {
     async escuro (newVal, oldVal) {
       try {
-        this.$app.Util.setLoading('Alterando configurações')
+        this.$app.Util.setLoading('Alterando configurações...')
         await this.alterar({
           configuracoes: JSON.stringify({ escuro: newVal })
         })
@@ -66,16 +76,6 @@ export default {
         this.$app.Util.setMessage(error, 'fail')
       }
     }
-  },
-  computed: {
-    ...mapGetters('clientes', [
-      'cliente'
-    ])
-  },
-  methods: {
-    ...mapActions('clientes', [
-      'alterar'
-    ])
   }
 }
 </script>

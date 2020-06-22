@@ -70,33 +70,33 @@ class MY_Controller extends CI_Controller
                         $lastError = false;
                         break;
                     case JSON_ERROR_DEPTH:
-                        $lastError = 'A profundidade máxima da pilha foi excedida';
+                        $lastError = 'A profundidade máxima da pilha foi excedida.';
                         break;
                     case JSON_ERROR_STATE_MISMATCH:
-                        $lastError = 'Inválido ou mal formado';
+                        $lastError = 'Inválido ou mal formado.';
                         break;
                     case JSON_ERROR_CTRL_CHAR:
-                        $lastError = 'Erro de caractere de controle, possivelmente codificado incorretamente';
+                        $lastError = 'Erro de caractere de controle, possivelmente codificado incorretamente.';
                         break;
                     case JSON_ERROR_SYNTAX:
-                        $lastError = 'Erro de sintaxe';
+                        $lastError = 'Erro de sintaxe.';
                         break;
                     case JSON_ERROR_UTF8:
-                        $lastError = 'Caracteres UTF-8 malformado, possivelmente codificado incorretamente';
+                        $lastError = 'Caracteres UTF-8 malformado, possivelmente codificado incorretamente.';
                         break;
                     default:
-                        $lastError = 'Erro desconhecido';
+                        $lastError = 'Erro desconhecido.';
                         break;
                 }
             }
             if (isset($lastError)) {
                 if ($errorGenerateException) {
-                    throw new \Exception("JSON: " . $lastError . ".");
+                    throw new \Exception('JSON: ' . $lastError);
                 } else {
                     if ($lastError === false) {
                         info('JSON: Retornou falso, porém não ocorreu nenhum erro.');
                     } else {
-                        info('JSON: ' . $lastError . '.');
+                        info('JSON: ' . $lastError);
                     }
                 }
             }
@@ -126,7 +126,7 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    public function verificarApi(string $metodo, bool $verificarToken = true): object
+    public function verificarApi(string $metodo, bool $verificarToken = true, int $nivel = 0): object
     {
         try {
             $metodoRecebido = $this->detectarMetodo();
@@ -154,9 +154,9 @@ class MY_Controller extends CI_Controller
             }
 
             $DAOClientes = new DAO\Clientes();
-            $retornoToken = $DAOClientes->verificarToken($this->token);
+            $retornoToken = $DAOClientes->verificarToken($this->token, $nivel);
             if (!$retornoToken) {
-                throw new \Exception("O token de autorização não está autenticado.");
+                throw new \Exception("O token de autorização não está autenticado ou não possuí nível de acesso.");
             }
 
             $this->habilitarApi = false;

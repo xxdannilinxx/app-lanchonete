@@ -41,13 +41,6 @@ class Opcionais
     private $valor = '0';
 
     /**
-     * @var int
-     *
-     * @Column(name="opcao", type="integer", nullable=false)
-     */
-    private $opcao;
-
-    /**
      * @var string|null
      *
      * @Column(name="situacao", type="string", length=45, nullable=true, options={"default"="ativo"})
@@ -60,6 +53,16 @@ class Opcionais
      * @Column(name="data", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $data = 'CURRENT_TIMESTAMP';
+
+    /**
+     * @var \Entities\Opcoes
+     *
+     * @ManyToOne(targetEntity="Opcoes")
+     * @JoinColumns({
+     *   @JoinColumn(name="opcao", referencedColumnName="id")
+     * })
+     */
+    private $opcao;
 
 
     /**
@@ -121,30 +124,6 @@ class Opcionais
     }
 
     /**
-     * Set opcao.
-     *
-     * @param int $opcao
-     *
-     * @return Opcionais
-     */
-    public function setOpcao($opcao)
-    {
-        $this->opcao = $opcao;
-
-        return $this;
-    }
-
-    /**
-     * Get opcao.
-     *
-     * @return int
-     */
-    public function getOpcao()
-    {
-        return $this->opcao;
-    }
-
-    /**
      * Set situacao.
      *
      * @param string|null $situacao
@@ -190,5 +169,29 @@ class Opcionais
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Set opcao.
+     *
+     * @param \Entities\Opcoes|null $opcao
+     *
+     * @return Opcionais
+     */
+    public function setOpcao(\Entities\Opcoes $opcao = null)
+    {
+        $this->opcao = $opcao;
+
+        return $this;
+    }
+
+    /**
+     * Get opcao.
+     *
+     * @return \Entities\Opcoes|null
+     */
+    public function getOpcao()
+    {
+        return $this->opcao;
     }
 }

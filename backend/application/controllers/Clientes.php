@@ -9,29 +9,6 @@ class Clientes extends MY_Controller
 		parent::__construct();
 	}
 
-	public function lista(array $filtros = []): object
-	{
-		try {
-			$verificarApi = $this->verificarApi('GET');
-			if (!$verificarApi->success) {
-				throw new \Exception($verificarApi->message);
-			}
-			/**
-			 * 
-			 */
-			$filtros = ($filtros ? $filtros : $this->input->get());
-			/**
-			 * 
-			 */
-			$DAOClientes = new DAO\Clientes();
-			$retorno = $DAOClientes->lista($filtros);
-
-			return $this->setReturn(true, 'Lista de clientes obtida com êxito.', $retorno);
-		} catch (\Exception $e) {
-			return $this->getException($e);
-		}
-	}
-
 	public function alterar(array $dados = []): object
 	{
 		try {
@@ -88,9 +65,6 @@ class Clientes extends MY_Controller
 			if ($dados->configuracoes) {
 				$entityCliente->setConfiguracoes($dados->configuracoes);
 			}
-			if ($dados->situacao) {
-				$entityCliente->setSituacao($dados->situacao);
-			}
 			$retorno = $this->salvar($entityCliente);
 			if (!$retorno) {
 				throw new \Exception('Não foi possível alterar suas informações.');
@@ -104,8 +78,7 @@ class Clientes extends MY_Controller
 				'cpf' => $entityCliente->getCpf(),
 				'nivel' => $entityCliente->getNivel(),
 				'token' => $entityCliente->getToken(),
-				'configuracoes' => $entityCliente->getConfiguracoes(),
-				'situacao' => $entityCliente->getSituacao()
+				'configuracoes' => $entityCliente->getConfiguracoes()
 			]);
 		} catch (\Exception $e) {
 			return $this->getException($e);

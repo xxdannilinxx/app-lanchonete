@@ -1,11 +1,11 @@
 <template>
   <div class="q-pa-md">
     <q-list>
-
       <q-item
         tag="label"
         v-ripple
       >
+
         <q-item-section>
           <q-item-label>Estabelecimento</q-item-label>
           <q-item-label caption>
@@ -80,7 +80,19 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'ListaInformacoes',
+  name: 'Lista',
+  async mounted () {
+    try {
+      this.$app.Util.setLoading('Buscando informações...')
+      await this.carregar()
+        .then(() => {
+          this.$app.Util.setLoading(false)
+        })
+    } catch (error) {
+      this.$app.Util.setLoading(false)
+      this.$app.Util.setMessage(error, 'fail')
+    }
+  },
   computed: {
     ...mapGetters('configuracoes', [
       'configuracoes'
@@ -90,18 +102,6 @@ export default {
     ...mapActions('configuracoes', [
       'carregar'
     ])
-  },
-  async mounted () {
-    try {
-      this.$app.Util.setLoading('Buscando informações')
-      await this.carregar()
-        .then(() => {
-          this.$app.Util.setLoading(false)
-        })
-    } catch (error) {
-      this.$app.Util.setLoading(false)
-      this.$app.Util.setMensagem(error, 'fail')
-    }
   }
 }
 </script>

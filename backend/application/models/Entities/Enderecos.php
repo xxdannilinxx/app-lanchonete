@@ -29,6 +29,13 @@ class Enderecos
     /**
      * @var string
      *
+     * @Column(name="titulo", type="string", length=45, nullable=false)
+     */
+    private $titulo;
+
+    /**
+     * @var string
+     *
      * @Column(name="endereco", type="string", length=255, nullable=false)
      */
     private $endereco;
@@ -39,20 +46,6 @@ class Enderecos
      * @Column(name="complemento", type="string", length=255, nullable=false)
      */
     private $complemento;
-
-    /**
-     * @var int
-     *
-     * @Column(name="bairro", type="integer", nullable=false)
-     */
-    private $bairro;
-
-    /**
-     * @var int
-     *
-     * @Column(name="cliente", type="integer", nullable=false)
-     */
-    private $cliente;
 
     /**
      * @var string|null
@@ -68,6 +61,26 @@ class Enderecos
      */
     private $data = 'CURRENT_TIMESTAMP';
 
+    /**
+     * @var \Entities\Bairros
+     *
+     * @ManyToOne(targetEntity="Bairros")
+     * @JoinColumns({
+     *   @JoinColumn(name="bairro", referencedColumnName="id")
+     * })
+     */
+    private $bairro;
+
+    /**
+     * @var \Entities\Clientes
+     *
+     * @ManyToOne(targetEntity="Clientes")
+     * @JoinColumns({
+     *   @JoinColumn(name="cliente", referencedColumnName="id")
+     * })
+     */
+    private $cliente;
+
 
     /**
      * Get id.
@@ -77,6 +90,30 @@ class Enderecos
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set titulo.
+     *
+     * @param string $titulo
+     *
+     * @return Enderecos
+     */
+    public function setTitulo($titulo)
+    {
+        $this->titulo = $titulo;
+
+        return $this;
+    }
+
+    /**
+     * Get titulo.
+     *
+     * @return string
+     */
+    public function getTitulo()
+    {
+        return $this->titulo;
     }
 
     /**
@@ -128,54 +165,6 @@ class Enderecos
     }
 
     /**
-     * Set bairro.
-     *
-     * @param int $bairro
-     *
-     * @return Enderecos
-     */
-    public function setBairro($bairro)
-    {
-        $this->bairro = $bairro;
-
-        return $this;
-    }
-
-    /**
-     * Get bairro.
-     *
-     * @return int
-     */
-    public function getBairro()
-    {
-        return $this->bairro;
-    }
-
-    /**
-     * Set cliente.
-     *
-     * @param int $cliente
-     *
-     * @return Enderecos
-     */
-    public function setCliente($cliente)
-    {
-        $this->cliente = $cliente;
-
-        return $this;
-    }
-
-    /**
-     * Get cliente.
-     *
-     * @return int
-     */
-    public function getCliente()
-    {
-        return $this->cliente;
-    }
-
-    /**
      * Set situacao.
      *
      * @param string|null $situacao
@@ -221,5 +210,53 @@ class Enderecos
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Set bairro.
+     *
+     * @param \Entities\Bairros|null $bairro
+     *
+     * @return Enderecos
+     */
+    public function setBairro(\Entities\Bairros $bairro = null)
+    {
+        $this->bairro = $bairro;
+
+        return $this;
+    }
+
+    /**
+     * Get bairro.
+     *
+     * @return \Entities\Bairros|null
+     */
+    public function getBairro()
+    {
+        return $this->bairro;
+    }
+
+    /**
+     * Set cliente.
+     *
+     * @param \Entities\Clientes|null $cliente
+     *
+     * @return Enderecos
+     */
+    public function setCliente(\Entities\Clientes $cliente = null)
+    {
+        $this->cliente = $cliente;
+
+        return $this;
+    }
+
+    /**
+     * Get cliente.
+     *
+     * @return \Entities\Clientes|null
+     */
+    public function getCliente()
+    {
+        return $this->cliente;
     }
 }

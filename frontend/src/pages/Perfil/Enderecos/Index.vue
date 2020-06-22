@@ -5,26 +5,24 @@
         expand-separator
         class="q-mb-lg text-h6"
         icon="keyboard_arrow_left"
-        label="Informações"
+        label="Endereços"
         header-class="text-red"
         expand-icon-class="hidden"
-        router-link
-        :to="{name: 'perfil'}"
+        @click="$router.go(-1)"
       >
       </q-expansion-item>
     </q-list>
-
-    <ListaInformacoes />
+    <Lista />
   </div>
 </template>
 
 <script>
-import ListaInformacoes from '../../components/perfil/listainformacoes'
+import Lista from '../../../components/perfil/enderecos/lista'
 
 export default {
-  name: 'Informacoes',
+  name: 'Enderecos',
   components: {
-    ListaInformacoes
+    Lista
   }
 }
 </script>

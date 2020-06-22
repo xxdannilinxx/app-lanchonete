@@ -51,7 +51,8 @@ app.Util = {
         Notify.create({
             progress: true,
             multiLine: true,
-            position: 'top',
+            position: 'bottom',
+            classes: 'q-mb-xl',
             icon: icone,
             message: String(mensagem),
             color: cor
@@ -71,7 +72,7 @@ app.Util = {
 /**
  * Aplicar configurações do cliente e padrões
  */
-app.aplicarConfiguracoes = (cliente) => {
+app.aplicarConfiguracoes = cliente => {
     if (cliente) {
         const configuracoes = JSON.parse(cliente.configuracoes)
         if (configuracoes) {
@@ -105,9 +106,9 @@ app.service = (url, dados, metodo) => {
             requisicao = axios.put(url, dados)
             break
         case 'DELETE':
-            requisicao = axios.delete(url, dados)
+            requisicao = axios.delete(url, { data: dados })
             break
-        default:
+        case 'GET':
             requisicao = axios.get(url, { params: dados })
             break
     }
@@ -140,7 +141,7 @@ export default ({ Vue }) => {
     /**
      * filtro de moeda padrão
      */
-    Vue.filter('moeda', function (valor) {
+    Vue.filter('moeda', valor => {
         return Number(valor).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
     })
 }

@@ -1,17 +1,22 @@
 <?php
 
-
+namespace Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Produtos
+ * Formasdepagamento
  *
- * @Table(name="produtos", indexes={@Index(name="fk_categoria_produto_idx", columns={"categoria"})})
+ * @Table(name="formasDePagamento")
  * @Entity
  */
-class Produtos
+class Formasdepagamento
 {
+    public function __construct()
+    {
+        $this->data = new \DateTime(date('Y-m-d H:i:s'));
+    }
+
     /**
      * @var int
      *
@@ -26,35 +31,14 @@ class Produtos
      *
      * @Column(name="nome", type="string", length=45, nullable=false)
      */
-    private $nome;
+    private $nome = '0';
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @Column(name="descricao", type="string", length=45, nullable=false)
+     * @Column(name="descricao", type="string", length=45, nullable=true)
      */
     private $descricao;
-
-    /**
-     * @var int
-     *
-     * @Column(name="categoria", type="integer", nullable=false)
-     */
-    private $categoria;
-
-    /**
-     * @var float
-     *
-     * @Column(name="valor", type="float", precision=10, scale=0, nullable=false)
-     */
-    private $valor = '0';
-
-    /**
-     * @var string
-     *
-     * @Column(name="imagem", type="blob", length=65535, nullable=false)
-     */
-    private $imagem;
 
     /**
      * @var string|null
@@ -86,7 +70,7 @@ class Produtos
      *
      * @param string $nome
      *
-     * @return Produtos
+     * @return Formasdepagamento
      */
     public function setNome($nome)
     {
@@ -108,11 +92,11 @@ class Produtos
     /**
      * Set descricao.
      *
-     * @param string $descricao
+     * @param string|null $descricao
      *
-     * @return Produtos
+     * @return Formasdepagamento
      */
-    public function setDescricao($descricao)
+    public function setDescricao($descricao = null)
     {
         $this->descricao = $descricao;
 
@@ -122,7 +106,7 @@ class Produtos
     /**
      * Get descricao.
      *
-     * @return string
+     * @return string|null
      */
     public function getDescricao()
     {
@@ -130,83 +114,11 @@ class Produtos
     }
 
     /**
-     * Set categoria.
-     *
-     * @param int $categoria
-     *
-     * @return Produtos
-     */
-    public function setCategoria($categoria)
-    {
-        $this->categoria = $categoria;
-
-        return $this;
-    }
-
-    /**
-     * Get categoria.
-     *
-     * @return int
-     */
-    public function getCategoria()
-    {
-        return $this->categoria;
-    }
-
-    /**
-     * Set valor.
-     *
-     * @param float $valor
-     *
-     * @return Produtos
-     */
-    public function setValor($valor)
-    {
-        $this->valor = $valor;
-
-        return $this;
-    }
-
-    /**
-     * Get valor.
-     *
-     * @return float
-     */
-    public function getValor()
-    {
-        return $this->valor;
-    }
-
-    /**
-     * Set imagem.
-     *
-     * @param string $imagem
-     *
-     * @return Produtos
-     */
-    public function setImagem($imagem)
-    {
-        $this->imagem = $imagem;
-
-        return $this;
-    }
-
-    /**
-     * Get imagem.
-     *
-     * @return string
-     */
-    public function getImagem()
-    {
-        return $this->imagem;
-    }
-
-    /**
      * Set situacao.
      *
      * @param string|null $situacao
      *
-     * @return Produtos
+     * @return Formasdepagamento
      */
     public function setSituacao($situacao = null)
     {
@@ -230,7 +142,7 @@ class Produtos
      *
      * @param \DateTime|null $data
      *
-     * @return Produtos
+     * @return Formasdepagamento
      */
     public function setData($data = null)
     {

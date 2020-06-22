@@ -16,18 +16,21 @@ class AbstractModel
         $this->em = ($em ? $em : $this->CI->doctrine->em);
     }
 
-    public function usarFiltro(object $qb, array $filtros = []): object
+    public function usarFiltro(object $qb, object $filtros = null, string $padrao = null): object
     {
-        foreach ($filtros as $filtro => $valor) {
-            switch ($filtro) {
-                case 'max':
-                    $qb->setMaxResults($valor);
-                    break;
-                case 'offset':
-                    $qb->setFirstResult($valor);
-                    break;
-                default:
-                    $qb->andWhere("{$filtro} = '{$valor}'");
+        if ($filtros) {
+            foreach ($filtros as $filtro => $valor) {
+                switch ($filtro) {
+                    case 'max':
+                        $qb->setMaxResults($valor);
+                        break;
+                    case 'offset':
+                        $qb->setFirstResult($valor);
+                        break;
+                    default:
+                        $filtro = ($padrao && !preg_match('/[.]/', $filtro) ? "{$padrao}.{$filtro}" : $filtro);
+                        $qb->andWhere("{$filtro} = '{$valor}'");
+                }
             }
         }
         return $qb;

@@ -41,13 +41,6 @@ class Produtos
     private $descricao;
 
     /**
-     * @var int
-     *
-     * @Column(name="categoria", type="integer", nullable=false)
-     */
-    private $categoria;
-
-    /**
      * @var float
      *
      * @Column(name="valor", type="float", precision=10, scale=0, nullable=false)
@@ -55,9 +48,9 @@ class Produtos
     private $valor = '0';
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @Column(name="imagem", type="string", length=500, nullable=true)
+     * @Column(name="imagem", type="string", length=65535, nullable=false)
      */
     private $imagem;
 
@@ -74,6 +67,16 @@ class Produtos
      * @Column(name="data", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $data = 'CURRENT_TIMESTAMP';
+
+    /**
+     * @var \Entities\Categorias
+     *
+     * @ManyToOne(targetEntity="Categorias")
+     * @JoinColumns({
+     *   @JoinColumn(name="categoria", referencedColumnName="id")
+     * })
+     */
+    private $categoria;
 
 
     /**
@@ -135,30 +138,6 @@ class Produtos
     }
 
     /**
-     * Set categoria.
-     *
-     * @param int $categoria
-     *
-     * @return Produtos
-     */
-    public function setCategoria($categoria)
-    {
-        $this->categoria = $categoria;
-
-        return $this;
-    }
-
-    /**
-     * Get categoria.
-     *
-     * @return int
-     */
-    public function getCategoria()
-    {
-        return $this->categoria;
-    }
-
-    /**
      * Set valor.
      *
      * @param float $valor
@@ -185,11 +164,11 @@ class Produtos
     /**
      * Set imagem.
      *
-     * @param string|null $imagem
+     * @param string $imagem
      *
      * @return Produtos
      */
-    public function setImagem($imagem = null)
+    public function setImagem($imagem)
     {
         $this->imagem = $imagem;
 
@@ -199,7 +178,7 @@ class Produtos
     /**
      * Get imagem.
      *
-     * @return string|null
+     * @return string
      */
     public function getImagem()
     {
@@ -252,5 +231,29 @@ class Produtos
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Set categoria.
+     *
+     * @param \Entities\Categorias|null $categoria
+     *
+     * @return Produtos
+     */
+    public function setCategoria(\Entities\Categorias $categoria = null)
+    {
+        $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    /**
+     * Get categoria.
+     *
+     * @return \Entities\Categorias|null
+     */
+    public function getCategoria()
+    {
+        return $this->categoria;
     }
 }

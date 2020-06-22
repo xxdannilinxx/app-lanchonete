@@ -50,18 +50,18 @@
 </template>
 
 <script>
-import facebookLogin from 'facebook-login-vuejs'
 import { mapGetters, mapActions } from 'vuex'
+import facebookLogin from 'facebook-login-vuejs'
 
 export default {
   name: 'Login',
+  components: {
+    facebookLogin
+  },
   data () {
     return {
       facebookConectado: null
     }
-  },
-  components: {
-    facebookLogin
   },
   computed: {
     ...mapGetters({
@@ -71,8 +71,13 @@ export default {
     })
   },
   methods: {
+    ...mapActions({
+      verificarFacebookSdk: 'clientes/verificarFacebookSdk',
+      alterar: 'clientes/alterar',
+      sair: 'clientes/sair'
+    }),
     async loading () {
-      this.$app.Util.setLoading('Estamos conectando com o facebook')
+      this.$app.Util.setLoading('Conectando com o facebook...')
     },
     async sdkLoaded (payload) {
       this.loading()
@@ -111,12 +116,7 @@ export default {
         this.$app.Util.setLoading(false)
         this.$app.Util.setMessage(error, 'fail')
       }
-    },
-    ...mapActions({
-      verificarFacebookSdk: 'clientes/verificarFacebookSdk',
-      alterar: 'clientes/alterar',
-      sair: 'clientes/sair'
-    })
+    }
   }
 }
 </script>

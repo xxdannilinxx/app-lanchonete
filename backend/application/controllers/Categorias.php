@@ -9,22 +9,25 @@ class Categorias extends MY_Controller
 		parent::__construct();
 	}
 
-	public function lista(array $filtros = []): object
+	public function lista(object $filtros = null): object
 	{
 		try {
-			$verificarApi = $this->verificarApi('GET');
+			$verificarApi = $this->verificarApi('GET', false);
 			if (!$verificarApi->success) {
 				throw new \Exception($verificarApi->message);
 			}
 			/**
 			 * 
 			 */
-			$filtros = ($filtros ? $filtros : $this->input->get());
+			$filtros = (object) ($filtros ? $filtros : $this->input->get());
 			/**
 			 * 
 			 */
 			$DAOCategorias = new DAO\Categorias();
 			$retorno = $DAOCategorias->lista($filtros);
+			if (!$retorno) {
+				throw new \Exception('Nenhuma categoria encontrada.');
+			}
 
 			return $this->setReturn(true, 'Lista de categorias obtida com êxito.', $retorno);
 		} catch (\Exception $e) {

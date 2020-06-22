@@ -12,14 +12,16 @@ class Produtos extends AbstractModel
         parent::__construct();
     }
 
-    public function lista(array $filtros = []): array
+    public function lista(object $filtros = null): array
     {
         $qb = $this->em->createQueryBuilder();
 
-        $qb->select('p.id, p.nome, p.descricao, p.valor, p.categoria, p.imagem')
-            ->from('Entities\Produtos', 'p');
-        $qb->andWhere("p.situacao = 'ativo'");
-        $this->usarFiltro($qb, $filtros);
+        $qb->select('partial p.{id,nome,descricao,valor,imagem}')
+            ->from('Entities\Produtos', 'p')
+            ->leftjoin('p.categoria', 'c')
+            ->andWhere("p.situacao = 'ativo'")
+            ->orderBy('p.id', 'asc');
+        $this->usarFiltro($qb, $filtros, 'p');
 
         return $qb->getQuery()->getArrayResult();
     }

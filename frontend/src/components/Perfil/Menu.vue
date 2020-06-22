@@ -1,15 +1,14 @@
 <template>
   <div class="q-pa-md">
     <q-list>
-
       <q-expansion-item
         expand-separator
-        class="q-mb-lg"
         icon="perm_identity"
         :label="cliente.nome"
         caption="Editar perfil"
         header-class="text-red"
         expand-icon-class="hidden"
+        class="bg-grey-2 rounded-borders q-mb-sm"
         router-link
         :to="{name: 'editar'}"
       >
@@ -31,16 +30,15 @@
     </q-list>
 
     <q-list>
-
       <q-expansion-item
         expand-separator
         icon="room"
-        label="Endereço"
+        label="Endereços"
         caption="Meus endereços de entrega"
         header-class="text-grey-8"
         expand-icon="keyboard_arrow_right"
         router-link
-        :to="{name: 'endereco'}"
+        :to="{name: 'enderecos'}"
       >
       </q-expansion-item>
 
@@ -84,7 +82,6 @@
         @click="confirma"
       >
       </q-expansion-item>
-
     </q-list>
   </div>
 </template>

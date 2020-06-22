@@ -4,7 +4,7 @@ namespace DAO;
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Categorias extends AbstractModel
+class Bairros extends AbstractModel
 {
 
     public function __construct()
@@ -16,11 +16,11 @@ class Categorias extends AbstractModel
     {
         $qb = $this->em->createQueryBuilder();
 
-        $qb->select('partial c.{id,nome}')
-            ->from('Entities\Categorias', 'c')
-            ->where("c.situacao = 'ativo'")
-            ->orderBy('c.id', 'asc');
-        $this->usarFiltro($qb, $filtros, 'c');
+        $qb->select('b')
+            ->from('Entities\Bairros', 'b')
+            ->where("b.situacao = 'ativo'")
+            ->orderBy('b.nome', 'asc');
+        $this->usarFiltro($qb, $filtros, 'b');
 
         return $qb->getQuery()->getArrayResult();
     }
