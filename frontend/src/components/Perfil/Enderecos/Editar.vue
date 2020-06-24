@@ -59,7 +59,7 @@
           label="Bairro"
           color="primary"
           hint="Selecione o bairro"
-          @filter="filtroBairros"
+          @filter="filtrarBairros"
           lazy-rules
           :rules="[ val => val || 'Por favor, selecione o bairro do endereço']"
         >
@@ -97,7 +97,6 @@ export default {
   name: 'EditarEndereco',
   data () {
     return {
-      model: null,
       dados: {},
       opcoesBairros: [],
       progresso: false
@@ -105,27 +104,27 @@ export default {
   },
   computed: {
     ...mapGetters({
-      enderecos: 'enderecos/enderecos',
-      endereco: 'enderecos/endereco',
-      bairros: 'bairros/bairros'
+      getEnderecos: 'enderecos/enderecos',
+      getEndereco: 'enderecos/endereco',
+      getBairros: 'bairros/bairros'
     })
   },
   methods: {
     ...mapActions({
-      buscarEndereco: 'enderecos/buscar',
-      alterar: 'enderecos/alterar',
-      listarBairros: 'bairros/lista'
+      actionEnderecoBuscar: 'enderecos/buscar',
+      actionEnderecoAlterar: 'enderecos/alterar',
+      actionBairrosListar: 'bairros/lista'
     }),
-    async filtroBairros (val, update, abort) {
+    async filtrarBairros (val, update, abort) {
       if (this.opcoesBairros.length > 0) {
         await update()
         return
       }
       try {
-        await this.listarBairros()
+        await this.actionBairrosListar()
           .then(async () => {
             await update(() => {
-              this.opcoesBairros = this.bairros
+              this.opcoesBairros = this.getBairros
             })
           })
       } catch (error) {
@@ -135,13 +134,7 @@ export default {
     async enviarFormulario () {
       try {
         this.progresso = true
-        await this.alterar({
-          id: this.dados.id,
-          titulo: this.dados.titulo,
-          endereco: this.dados.endereco,
-          complemento: this.dados.complemento,
-          bairro: this.dados.bairro.id
-        })
+        await this.actionEnderecoAlterar(this.dados)
           .then(response => {
             this.progresso = false
             this.$router.go(-1)
@@ -161,19 +154,17 @@ export default {
         }
         try {
           this.$app.Util.setLoading('Buscando endereço...')
-          await this.buscarEndereco({
+          await this.actionEnderecoBuscar({
             id: dados,
             max: 1
           })
             .then(() => {
-              if (this.endereco.length > 0) {
-                this.dados = {
-                  id: this.endereco[0].id,
-                  titulo: this.endereco[0].titulo,
-                  endereco: this.endereco[0].endereco,
-                  complemento: this.endereco[0].complemento,
-                  bairro: this.endereco[0].bairro
-                }
+              this.dados = {
+                id: this.getEndereco[0].id,
+                titulo: this.getEndereco[0].titulo,
+                endereco: this.getEndereco[0].endereco,
+                complemento: this.getEndereco[0].complemento,
+                bairro: this.getEndereco[0].bairro
               }
               this.$app.Util.setLoading(false)
             })

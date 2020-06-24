@@ -13,7 +13,7 @@
         <q-item-section avatar>
           <q-toggle
             color="red"
-            v-model="escuro"
+            v-model="$q.dark.isActive"
             val="picture"
           />
         </q-item-section>
@@ -28,7 +28,7 @@
         <q-item-section>
           <q-item-label>Versão do aplicativo</q-item-label>
           <q-item-label caption>
-            {{ this.$app.versao }}
+            {{ $app.versao }}
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -40,38 +40,27 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Opcoes',
-  data () {
-    return {
-      escuro: this.$q.dark.isActive,
-      configuracoes: {}
-    }
-  },
-  computed: {
-    ...mapGetters('clientes', [
-      'cliente'
-    ])
-  },
   methods: {
-    ...mapActions('clientes', [
-      'alterar'
-    ])
+    ...mapActions({
+      actionClienteAlterar: 'clientes/alterar',
+      actionClienteConfiguracaoAlterar: 'clientes/alterarConfiguracao'
+    })
   },
   watch: {
-    async escuro (newVal, oldVal) {
+    async '$q.dark.isActive' (newVal, oldVal) {
       try {
         this.$app.Util.setLoading('Alterando configurações...')
-        await this.alterar({
-          configuracoes: JSON.stringify({ escuro: newVal })
-        })
+        await this.actionClienteConfiguracaoAlterar(JSON.stringify({ escuro: newVal }))
           .then(() => {
             this.$q.dark.set(newVal)
             this.$app.Util.setLoading(false)
           })
       } catch (error) {
+        this.$q.dark.set(oldVal)
         this.$app.Util.setLoading(false)
         this.$app.Util.setMessage(error, 'fail')
       }

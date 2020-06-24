@@ -13,35 +13,29 @@ import store from './store'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'Main',
+  name: 'App',
   store,
-  created () {
+  async created () {
     try {
-      this.carregar()
-      if (!this.cliente) {
-        if (this.$route.name !== 'entrar') {
-          this.$router.push('/entrar')
-        }
-        return false
+      if (this.getAutenticado) {
+        await this.actionAutenticarCliente()
       }
-      if (!this.autenticado) {
-        this.autenticar()
-      }
-      this.$app.aplicarConfiguracoes(this.cliente)
+      await this.actionCarregarConfiguracoes()
+      this.$app.aplicarConfiguracoesCliente(this.getClienteConfiguracoes)
     } catch (error) {
       this.$app.Util.setMessage(error, 'fail')
     }
   },
   computed: {
     ...mapGetters({
-      cliente: 'clientes/cliente',
-      autenticado: 'clientes/autenticado'
+      getAutenticado: 'clientes/autenticado',
+      getClienteConfiguracoes: 'clientes/configuracoes'
     })
   },
   methods: {
     ...mapActions({
-      autenticar: 'clientes/autenticar',
-      carregar: 'configuracoes/carregar'
+      actionAutenticarCliente: 'clientes/autenticar',
+      actionCarregarConfiguracoes: 'configuracoes/carregar'
     })
   }
 }

@@ -37,7 +37,7 @@ export default {
   name: 'Footer',
   data () {
     return {
-      tabAtual: null,
+      tabAtual: '',
       tabs: [
         { name: 'inicio', label: 'inicio', icon: 'storefront', route: '/' },
         { name: 'carrinho', label: 'Carrinho', icon: 'shopping_cart', route: '/carrinho' },

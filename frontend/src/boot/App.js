@@ -23,7 +23,7 @@ app.Util = {
                 spinnerColor: 'red',
                 messageColor: 'red',
                 backgroundColor: 'grey-3',
-                message: (ativar ? String(ativar) : null)
+                message: (ativar ? String(ativar) : '')
             })
             return
         }
@@ -42,6 +42,7 @@ app.Util = {
             case 'fail':
                 cor = 'red'
                 icone = 'tv_off'
+                console.error(mensagem)
                 break
             default:
                 cor = 'blue'
@@ -72,19 +73,14 @@ app.Util = {
 /**
  * Aplicar configurações do cliente e padrões
  */
-app.aplicarConfiguracoes = cliente => {
-    if (cliente) {
-        const configuracoes = JSON.parse(cliente.configuracoes)
-        if (configuracoes) {
-            if (Object.prototype.hasOwnProperty.call(configuracoes, 'escuro')) {
-                Dark.set(configuracoes.escuro)
-            }
-        }
-        return true
+app.aplicarConfiguracoesCliente = configuracoesCliente => {
+    if (configuracoesCliente) {
+        Dark.set(configuracoesCliente.escuro)
+        return
     }
-    app.aplicarConfiguracoesPadroes()
+    app.aplicarConfiguracoesPadroesCliente()
 }
-app.aplicarConfiguracoesPadroes = () => {
+app.aplicarConfiguracoesPadroesCliente = () => {
     if (Dark.isActive) {
         Dark.set(false)
     }
@@ -123,6 +119,19 @@ app.service = (url, dados, metodo) => {
             .catch(error => reject(error))
     })
 }
+/**
+ * Interceptar código 401
+ */
+app.axios.interceptors.response.use(function (response) {
+    return response
+}, function (error) {
+    if (error.response.status === 401) {
+        window.location = '/entrar'
+        return false
+    } else {
+        return Promise.reject(error)
+    }
+})
 
 export default ({ Vue }) => {
     /**

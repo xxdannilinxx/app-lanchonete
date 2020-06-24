@@ -25,12 +25,12 @@
       <h6 v-if="facebookConectado === false">Oi! =)<br />é sempre bom tê-lo por aqui!</h6>
 
       <facebook-login
-        v-if="configuracoes.facebookuid"
+        v-if="getConfiguracoes.facebookuid"
         class="q-pl-xs"
-        :appId="configuracoes.facebookuid"
+        :appId="getConfiguracoes.facebookuid"
         @click="loading"
-        @login="logar"
-        @logout="deslogar"
+        @login="entrar"
+        @logout="sair"
         @sdk-loaded="sdkLoaded"
         loginLabel="Entrar com o facebook"
         logoutLabel="Encerrar minha sessão"
@@ -60,21 +60,21 @@ export default {
   },
   data () {
     return {
-      facebookConectado: null
+      facebookConectado: ''
     }
   },
   computed: {
     ...mapGetters({
-      cliente: 'clientes/cliente',
-      dadosSdk: 'clientes/dadosSdk',
-      configuracoes: 'configuracoes/configuracoes'
+      getConfiguracoesCliente: 'clientes/configuracoes',
+      getDadosSdk: 'clientes/dadosSdk',
+      getConfiguracoes: 'configuracoes/configuracoes'
     })
   },
   methods: {
     ...mapActions({
-      verificarFacebookSdk: 'clientes/verificarFacebookSdk',
-      alterar: 'clientes/alterar',
-      sair: 'clientes/sair'
+      actionVerificarFacebookSdk: 'clientes/verificarFacebookSdk',
+      actionClienteAlterar: 'clientes/alterar',
+      actionClienteSair: 'clientes/sair'
     }),
     async loading () {
       this.$app.Util.setLoading('Conectando com o facebook...')
@@ -84,12 +84,12 @@ export default {
       this.facebookConectado = payload.isConnected
       this.$app.Util.setLoading(false)
     },
-    async deslogar () {
+    async sair () {
       try {
-        await this.sair()
+        await this.actionClienteSair()
           .then(() => {
             this.facebookConectado = false
-            this.$app.aplicarConfiguracoesPadroes()
+            this.$app.aplicarConfiguracoesPadroesCliente()
             this.$app.Util.setLoading(false)
           })
       } catch (error) {
@@ -97,19 +97,19 @@ export default {
         this.$app.Util.setMessage(error, 'fail')
       }
     },
-    async logar (payload) {
+    async entrar (payload) {
       try {
         if (payload && payload.isConnected === false) {
           throw new Error('Você precisa autenticar-se com o facebook!')
         }
-        await this.verificarFacebookSdk(payload)
+        await this.actionVerificarFacebookSdk(payload)
           .then(async response => {
-            await this.alterar(this.dadosSdk)
+            await this.actionClienteAlterar(this.getDadosSdk)
               .then(response => {
                 this.facebookConectado = true
-                this.$app.aplicarConfiguracoes(this.cliente)
-                this.$app.Util.setLoading(false)
+                this.$app.aplicarConfiguracoesCliente(this.getConfiguracoesCliente)
                 this.$router.push('/')
+                this.$app.Util.setLoading(false)
               })
           })
       } catch (error) {

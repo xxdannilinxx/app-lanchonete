@@ -80,7 +80,7 @@ class Enderecos extends MY_Controller
 				throw new \Exception('Você precisa informar o complemento do endereço.');
 			}
 			if ($dados->bairro) {
-				$entityBairro = $this->em->find('\Entities\Bairros', $dados->bairro);
+				$entityBairro = $this->em->find('\Entities\Bairros', $dados->bairro['id']);
 				if (!$entityBairro) {
 					throw new \Exception('O bairro informado não foi encontrado.');
 				}

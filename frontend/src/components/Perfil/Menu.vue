@@ -4,23 +4,23 @@
       <q-expansion-item
         expand-separator
         icon="perm_identity"
-        :label="cliente.nome"
+        :label="getCliente.nome"
         caption="Editar perfil"
         header-class="text-red"
         expand-icon-class="hidden"
-        class="bg-grey-2 rounded-borders q-mb-sm"
+        class="rounded-borders q-mb-sm"
         router-link
         :to="{name: 'editar'}"
       >
         <template v-slot:header>
           <q-item-section avatar>
             <q-avatar>
-              <img :src="'https://graph.facebook.com/' + cliente.facebook + '/picture?type=normal'">
+              <img :src="'https://graph.facebook.com/' + getCliente.facebook + '/picture?type=normal'">
             </q-avatar>
           </q-item-section>
 
           <q-item-section>
-            <q-item-label>{{ cliente.nome }}</q-item-label>
+            <q-item-label>{{ getCliente.nome }}</q-item-label>
             <q-item-label caption>
               Editar perfil
             </q-item-label>
@@ -92,9 +92,9 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Menu',
   computed: {
-    ...mapGetters('clientes', [
-      'cliente'
-    ])
+    ...mapGetters({
+      getCliente: 'clientes/cliente'
+    })
   },
   methods: {
     async confirma () {

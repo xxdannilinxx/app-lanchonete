@@ -30,7 +30,7 @@
         clearable
         autofocus
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Por favor, digite o seu cpf']"
+        :rules="[ val => val && val.length === 14 || 'Por favor, digite o seu cpf']"
       />
       <q-input
         filled
@@ -41,7 +41,7 @@
         maxlength="45"
         clearable
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Por favor, digite o número do seu telefone']"
+        :rules="[ val => val && val.length === 15 || val.length + 'Por favor, digite o número do seu telefone']"
       />
 
       <div class="q-pa-xs q-pt-md">
@@ -74,28 +74,25 @@ export default {
   },
   async mounted () {
     this.dados = {
-      nome: this.cliente.nome,
-      email: this.cliente.email,
-      cpf: this.cliente.cpf,
-      telefone: this.cliente.telefone
+      nome: this.getCliente.nome,
+      email: this.getCliente.email,
+      cpf: this.getCliente.cpf,
+      telefone: this.getCliente.telefone
     }
   },
   computed: {
-    ...mapGetters('clientes', [
-      'cliente'
-    ])
+    ...mapGetters({
+      getCliente: 'clientes/cliente'
+    })
   },
   methods: {
-    ...mapActions('clientes', [
-      'alterar'
-    ]),
+    ...mapActions({
+      actionClienteAlterar: 'clientes/alterar'
+    }),
     async enviarFormulario () {
       try {
         this.progresso = true
-        await this.alterar({
-          cpf: this.dados.cpf,
-          telefone: this.dados.telefone
-        })
+        await this.actionClienteAlterar(this.dados)
           .then(response => {
             this.progresso = false
             this.$router.go(-1)

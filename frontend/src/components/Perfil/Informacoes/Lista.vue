@@ -9,7 +9,7 @@
         <q-item-section>
           <q-item-label>Estabelecimento</q-item-label>
           <q-item-label caption>
-            {{ configuracoes.nome }}
+            {{ getConfiguracoes.nome }}
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -23,7 +23,7 @@
         <q-item-section>
           <q-item-label>Funcionamento</q-item-label>
           <q-item-label caption>
-            {{ configuracoes.horario }}
+            {{ getConfiguracoes.horario }}
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -37,7 +37,7 @@
         <q-item-section>
           <q-item-label>Telefone</q-item-label>
           <q-item-label caption>
-            {{ configuracoes.telefone }}
+            {{ getConfiguracoes.telefone }}
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -51,7 +51,7 @@
         <q-item-section>
           <q-item-label>Site</q-item-label>
           <q-item-label caption>
-            {{ configuracoes.site }}
+            {{ getConfiguracoes.site }}
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -65,7 +65,7 @@
         <q-item-section>
           <q-item-label>Email</q-item-label>
           <q-item-label caption>
-            {{ configuracoes.email }}
+            {{ getConfiguracoes.email }}
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -84,7 +84,7 @@ export default {
   async mounted () {
     try {
       this.$app.Util.setLoading('Buscando informações...')
-      await this.carregar()
+      await this.actionConfiguracoesCarregar()
         .then(() => {
           this.$app.Util.setLoading(false)
         })
@@ -94,14 +94,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('configuracoes', [
-      'configuracoes'
-    ])
+    ...mapGetters({
+      getConfiguracoes: 'configuracoes/configuracoes'
+    })
   },
   methods: {
-    ...mapActions('configuracoes', [
-      'carregar'
-    ])
+    ...mapActions({
+      actionConfiguracoesCarregar: 'configuracoes/carregar'
+    })
   }
 }
 </script>

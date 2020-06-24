@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div
-      v-if="!enderecos.length && carregado"
+      v-if="!getEnderecos.length && carregado"
       class="text-center"
     >
       <p>
@@ -14,22 +14,22 @@
     </div>
 
     <q-list
-      v-for="(endereco, index) in enderecos"
+      v-for="(endereco, index) in getEnderecos"
       :key="index"
     >
 
-      <q-card class="my-card bg-grey-2 rounded-borders q-mb-md q-pt-sm q-pb-sm">
+      <q-card class="my-card rounded-borders q-mb-md q-pt-md q-pb-md">
         <q-item>
           <q-item-section class="col-2">
             <q-radio
               dense
-              v-model="model"
+              v-model="enderecoPadrao"
               :val="endereco.id"
               color="red"
             />
           </q-item-section>
 
-          <q-item-section @click="model = endereco.id">
+          <q-item-section @click="enderecoPadrao = endereco.id">
             <q-item-label>{{ endereco.titulo }}</q-item-label>
             <q-item-label caption>
               {{ `${endereco.endereco}, ${endereco.complemento}` }}
@@ -66,16 +66,17 @@ export default {
   name: 'Lista',
   data () {
     return {
-      model: false,
+      enderecoPadrao: '',
       carregado: false
     }
   },
   async mounted () {
     try {
       this.$app.Util.setLoading('Buscando endereços...')
-      await this.lista()
+      await this.actionEnderecosListar()
         .then(() => {
           this.carregado = true
+          this.enderecoPadrao = this.getClienteConfiguracoes.enderecoPadrao
           this.$app.Util.setLoading(false)
         })
     } catch (error) {
@@ -85,14 +86,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('enderecos', [
-      'enderecos'
-    ])
+    ...mapGetters({
+      getEnderecos: 'enderecos/enderecos',
+      getClienteConfiguracoes: 'clientes/configuracoes'
+    })
   },
   methods: {
-    ...mapActions('enderecos', [
-      'lista', 'remover'
-    ]),
+    ...mapActions({
+      actionEnderecosListar: 'enderecos/lista',
+      actionEnderecoRemover: 'enderecos/remover',
+      actionClienteConfiguracaoAlterar: 'clientes/alterarConfiguracao'
+    }),
     mostrarMenu (endereco) {
       this.$q.bottomSheet({
         message: endereco.titulo,
@@ -120,6 +124,10 @@ export default {
             this.$router.push({ name: 'editarendereco', params: { id: endereco.id } })
             break
           case 'remover':
+            if (endereco.id === this.enderecoPadrao) {
+              this.$app.Util.setMessage('Você não pode remover o seu endereço padrão.', 'info')
+              return
+            }
             this.$app.Util.setConfirm('Deseja realmente remover o endereço?', () => {
               this.removerEndereco(endereco)
             }, this.$app.EmptyFn)
@@ -130,10 +138,30 @@ export default {
     async removerEndereco (endereco) {
       try {
         this.$app.Util.setLoading('Removendo endereço...')
-        await this.remover({
+        await this.actionEnderecoRemover({
           id: endereco.id
         })
           .then(response => {
+            this.$app.Util.setLoading(false)
+          })
+      } catch (error) {
+        this.$app.Util.setLoading(false)
+        this.$app.Util.setMessage(error, 'fail')
+      }
+    }
+  },
+  watch: {
+    getEnderecos (lista) {
+      if (!this.enderecoPadrao && lista.length > 0) {
+        this.enderecoPadrao = lista[0].id
+      }
+    },
+    async enderecoPadrao (newVal, oldVal) {
+      try {
+        this.$app.Util.setLoading('Alterando endereço padrão...')
+        await this.actionClienteConfiguracaoAlterar(JSON.stringify({ enderecoPadrao: newVal }))
+          .then(() => {
+            this.enderecoPadrao = newVal
             this.$app.Util.setLoading(false)
           })
       } catch (error) {

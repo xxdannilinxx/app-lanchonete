@@ -5,7 +5,7 @@
     icon="lightbulb"
   >
     <q-banner
-      v-if="configuracoes.aberto === 0"
+      v-if="getConfiguracoes.aberto === 0"
       class="bg-grey-3"
     >
       <template v-slot:avatar>
@@ -178,23 +178,23 @@ export default {
   },
   computed: {
     ...mapGetters({
-      items: 'produtos/items',
-      configuracoes: 'configuracoes/configuracoes'
+      getProdutos: 'produtos/items',
+      getConfiguracoes: 'configuracoes/configuracoes'
     })
   },
   methods: {
     ...mapActions({
-      lista: 'produtos/lista'
+      actionProdutosListar: 'produtos/lista'
     }),
     async carregar (index, pronto) {
       try {
         setTimeout(async () => {
-          await this.lista({
+          await this.actionProdutosListar({
             offset: (index - 1),
             max: 1
           })
-          if (this.items.length > 0) {
-            this.categorias.push(this.items[0])
+          if (this.getProdutos.length > 0) {
+            this.categorias.push(this.getProdutos[0])
             pronto()
             return true
           }
