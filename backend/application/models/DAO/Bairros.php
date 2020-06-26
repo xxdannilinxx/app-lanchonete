@@ -16,7 +16,7 @@ class Bairros extends AbstractModel
     {
         $qb = $this->em->createQueryBuilder();
 
-        $qb->select('b')
+        $qb->select('partial b.{id,nome,valor}')
             ->from('Entities\Bairros', 'b')
             ->where("b.situacao = 'ativo'")
             ->orderBy('b.nome', 'asc');

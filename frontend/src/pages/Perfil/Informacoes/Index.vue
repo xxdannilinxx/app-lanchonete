@@ -1,28 +1,18 @@
 <template>
-  <div class="q-pa-md">
-    <q-list>
-      <q-expansion-item
-        expand-separator
-        class="q-mb-lg text-h6"
-        icon="keyboard_arrow_left"
-        label="Informações"
-        header-class="text-red"
-        expand-icon-class="hidden"
-        @click="$router.go(-1)"
-      >
-      </q-expansion-item>
-    </q-list>
-
+  <q-page>
+    <BarraTop />
     <Lista />
-  </div>
+  </q-page>
 </template>
 
 <script>
+import BarraTop from '../../../components/abstratos/barratop'
 import Lista from '../../../components/perfil/informacoes/lista'
 
 export default {
   name: 'Informacoes',
   components: {
+    BarraTop,
     Lista
   }
 }

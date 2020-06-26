@@ -44,7 +44,6 @@
           </q-item-section>
         </q-item>
       </q-card>
-
     </q-list>
 
     <div class="q-pa-xs">
@@ -100,7 +99,7 @@ export default {
     mostrarMenu (endereco) {
       this.$q.bottomSheet({
         message: endereco.titulo,
-        grid: true,
+        // grid: true,
         actions: [
           {
             label: 'Editar',
@@ -137,15 +136,10 @@ export default {
     },
     async removerEndereco (endereco) {
       try {
-        this.$app.Util.setLoading('Removendo endereço...')
         await this.actionEnderecoRemover({
           id: endereco.id
         })
-          .then(response => {
-            this.$app.Util.setLoading(false)
-          })
       } catch (error) {
-        this.$app.Util.setLoading(false)
         this.$app.Util.setMessage(error, 'fail')
       }
     }
@@ -158,14 +152,12 @@ export default {
     },
     async enderecoPadrao (newVal, oldVal) {
       try {
-        this.$app.Util.setLoading('Alterando endereço padrão...')
         await this.actionClienteConfiguracaoAlterar(JSON.stringify({ enderecoPadrao: newVal }))
           .then(() => {
             this.enderecoPadrao = newVal
-            this.$app.Util.setLoading(false)
           })
       } catch (error) {
-        this.$app.Util.setLoading(false)
+        this.enderecoPadrao = oldVal
         this.$app.Util.setMessage(error, 'fail')
       }
     }

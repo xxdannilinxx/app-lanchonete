@@ -1,7 +1,5 @@
 <template>
-  <div class="q-pa-md">
-    <EditarPerfil />
-  </div>
+  <EditarPerfil />
 </template>
 
 <script>

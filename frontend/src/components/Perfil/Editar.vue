@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <q-page class="q-pa-md">
     <q-form
       @submit="enviarFormulario"
       class="q-gutter-md"
@@ -58,7 +58,7 @@
         </q-btn>
       </div>
     </q-form>
-  </div>
+  </q-page>
 </template>
 
 <script>

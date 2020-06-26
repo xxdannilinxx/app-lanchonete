@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Login from '../../components/Entrar/Login'
+import Login from '../../components/entrar/login'
 
 export default {
   name: 'Entrar',

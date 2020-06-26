@@ -1,29 +1,14 @@
 <template>
-  <div class="q-pa-md">
-    <q-list>
-
-      <q-expansion-item
-        v-if="facebookConectado === true"
-        expand-separator
-        class="q-mb-lg text-h6"
-        icon="keyboard_arrow_left"
-        label="Sair"
-        header-class="text-red"
-        expand-icon-class="hidden"
-        router-link
-        :to="{name: 'perfil'}"
-      >
-      </q-expansion-item>
-    </q-list>
-
-    <div class="absolute-center text-center">
+  <div>
+    <BarraTop v-if="facebookConectado === true" />
+    <div class="
+      absolute-center
+      text-center">
       <img
         src="~assets/login.png"
         width="80%"
       />
-      <h6 v-if="facebookConectado === true">Poxa! =(<br />fique mais um pouco conosco!</h6>
-      <h6 v-if="facebookConectado === false">Oi! =)<br />é sempre bom tê-lo por aqui!</h6>
-
+      <h6>{{ facebookConectado === true ? 'Poxa! =( fique mais um pouco conosco!' : 'Oi! =) é sempre bom tê-lo por aqui!'}}</h6>
       <facebook-login
         v-if="getConfiguracoes.facebookuid"
         class="q-pl-xs"
@@ -36,26 +21,20 @@
         logoutLabel="Encerrar minha sessão"
       >
       </facebook-login>
-      <p
-        v-if="facebookConectado === true"
-        class="q-pt-xl text-primary"
-      >Continue em nosso cardápio e faça seu pedido agora mesmo!</p>
-      <p
-        v-if="facebookConectado === false"
-        class="q-pt-xl text-primary"
-      >Pronto para visualizar nosso cardápio?</p>
+      <p class="q-pt-xl text-primary">{{ facebookConectado === true ? 'Continue em nosso cardápio e faça seu pedido agora mesmo!' : 'Pronto para visualizar nosso cardápio?'}}</p>
     </div>
-
   </div>
 </template>
 
 <script>
+import BarraTop from '../abstratos/barratop'
 import { mapGetters, mapActions } from 'vuex'
 import facebookLogin from 'facebook-login-vuejs'
 
 export default {
   name: 'Login',
   components: {
+    BarraTop,
     facebookLogin
   },
   data () {

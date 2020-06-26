@@ -1,17 +1,6 @@
 <template>
-  <div>
-    <q-list>
-      <q-expansion-item
-        expand-separator
-        class="q-mb-lg text-h6"
-        icon="keyboard_arrow_left"
-        label="Endereço"
-        header-class="text-red"
-        expand-icon-class="hidden"
-        @click="$router.go(-1)"
-      >
-      </q-expansion-item>
-    </q-list>
+  <q-page>
+    <BarraTop />
 
     <div class="q-pa-md">
       <q-form
@@ -60,6 +49,7 @@
           color="primary"
           hint="Selecione o bairro"
           @filter="filtrarBairros"
+          use-input
           lazy-rules
           :rules="[ val => val || 'Por favor, selecione o bairro do endereço']"
         >
@@ -87,14 +77,18 @@
         </div>
       </q-form>
     </div>
-  </div>
+  </q-page>
 </template>
 
 <script>
+import BarraTop from '../../../components/abstratos/barratop'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'EditarEndereco',
+  components: {
+    BarraTop
+  },
   data () {
     return {
       dados: {},
@@ -116,15 +110,17 @@ export default {
       actionBairrosListar: 'bairros/lista'
     }),
     async filtrarBairros (val, update, abort) {
-      if (this.opcoesBairros.length > 0) {
-        await update()
-        return
-      }
       try {
         await this.actionBairrosListar()
-          .then(async () => {
-            await update(() => {
-              this.opcoesBairros = this.getBairros
+          .then(() => {
+            if (val === '') {
+              update(async () => {
+                this.opcoesBairros = this.getBairros
+              })
+              return
+            }
+            update(() => {
+              this.opcoesBairros = this.getBairros.filter(v => v.nome.toLowerCase().indexOf(val.toLowerCase()) > -1)
             })
           })
       } catch (error) {

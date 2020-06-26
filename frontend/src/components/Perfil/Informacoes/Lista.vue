@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <q-page>
     <q-list>
       <q-item
         tag="label"
@@ -7,7 +7,7 @@
       >
 
         <q-item-section>
-          <q-item-label>Estabelecimento</q-item-label>
+          <q-item-label>Nome</q-item-label>
           <q-item-label caption>
             {{ getConfiguracoes.nome }}
           </q-item-label>
@@ -73,7 +73,7 @@
       <q-separator />
 
     </q-list>
-  </div>
+  </q-page>
 </template>
 
 <script>

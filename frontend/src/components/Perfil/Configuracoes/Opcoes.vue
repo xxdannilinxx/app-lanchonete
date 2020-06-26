@@ -1,6 +1,8 @@
 <template>
-  <div class="q-pa-md">
+  <q-page>
     <q-list>
+      <div class="text-caption text-primary q-pa-sm">Aparência</div>
+
       <q-item
         tag="label"
         v-ripple
@@ -21,6 +23,8 @@
 
       <q-separator />
 
+      <div class="text-caption text-primary q-pa-sm">Sobre</div>
+
       <q-item
         tag="label"
         v-ripple
@@ -33,10 +37,8 @@
         </q-item-section>
       </q-item>
 
-      <q-separator />
-
     </q-list>
-  </div>
+  </q-page>
 </template>
 
 <script>
@@ -53,15 +55,12 @@ export default {
   watch: {
     async '$q.dark.isActive' (newVal, oldVal) {
       try {
-        this.$app.Util.setLoading('Alterando configurações...')
         await this.actionClienteConfiguracaoAlterar(JSON.stringify({ escuro: newVal }))
           .then(() => {
             this.$q.dark.set(newVal)
-            this.$app.Util.setLoading(false)
           })
       } catch (error) {
         this.$q.dark.set(oldVal)
-        this.$app.Util.setLoading(false)
         this.$app.Util.setMessage(error, 'fail')
       }
     }
