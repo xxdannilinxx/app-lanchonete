@@ -102,7 +102,11 @@ class Enderecos extends MY_Controller
 				'titulo' => $entityEndereco->getTitulo(),
 				'endereco' => $entityEndereco->getEndereco(),
 				'complemento' => $entityEndereco->getComplemento(),
-				'bairro' => $entityEndereco->getBairro()->getId()
+				'bairro' => [
+					'id' => $entityEndereco->getBairro()->getId(),
+					'nome' => $entityEndereco->getBairro()->getNome(),
+					'valor' => $entityEndereco->getBairro()->getValor()
+				]
 			]);
 		} catch (\Exception $e) {
 			return $this->getException($e);

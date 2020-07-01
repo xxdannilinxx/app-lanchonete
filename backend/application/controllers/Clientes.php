@@ -71,6 +71,7 @@ class Clientes extends MY_Controller
 			}
 
 			return $this->setReturn(true, 'Informações alteradas com sucesso.', [
+				'id' => $entityCliente->getId(),
 				'facebook' => $entityCliente->getFacebook(),
 				'email' => $entityCliente->getEmail(),
 				'nome' => $entityCliente->getNome(),

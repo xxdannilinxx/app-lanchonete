@@ -18,7 +18,7 @@ class Clientes extends AbstractModel
 
         $qb->select('c.token')
             ->from('Entities\Clientes', 'c')
-            ->where("c.situacao = 'ativo'")
+            ->where("c.situacao <> 'desativado'")
             ->andWhere("c.token = '{$token}'");
         if ($nivel > 0) {
             $qb->andWhere("c.nivel = '{$nivel}'");

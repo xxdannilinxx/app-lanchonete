@@ -63,7 +63,7 @@
             >
               <q-item
                 clickable
-                :to="'/produto/' + produto.id"
+                @click="carregarOpcoes(produto)"
                 v-ripple
               >
                 <q-item-section avatar>
@@ -179,12 +179,14 @@ export default {
   computed: {
     ...mapGetters({
       getProdutos: 'produtos/items',
-      getConfiguracoes: 'configuracoes/configuracoes'
+      getConfiguracoes: 'configuracoes/configuracoes',
+      getOpcoes: 'produtos/opcoes'
     })
   },
   methods: {
     ...mapActions({
-      actionProdutosListar: 'produtos/lista'
+      actionProdutosListar: 'produtos/lista',
+      actionProdutosOpcoesListar: 'produtos/listaOpcoes'
     }),
     async carregar (index, pronto) {
       try {
@@ -213,6 +215,19 @@ export default {
         this.$refs.infiniteScroll.resume()
         pronto()
       }, 1000)
+    },
+    async carregarOpcoes (produto) {
+      try {
+        this.$app.Util.setLoading('Buscando opções...')
+        await this.actionProdutosOpcoesListar(produto)
+          .then(() => {
+            this.$router.push({ name: 'produto', params: { id: produto.id } })
+            this.$app.Util.setLoading(false)
+          })
+      } catch (error) {
+        this.$app.Util.setLoading(false)
+        this.$app.Util.setMessage(error, 'fail')
+      }
     }
   }
 }

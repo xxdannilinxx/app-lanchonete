@@ -13,38 +13,39 @@
       <p class="text-faded">Você precisa cadastrar um endereço.</p>
     </div>
 
-    <q-list
-      v-for="(endereco, index) in getEnderecos"
-      :key="index"
-    >
+    <div v-if="carregado">
+      <q-list
+        v-for="(endereco, index) in getEnderecos"
+        :key="index"
+      >
+        <q-card class="my-card rounded-borders q-mb-md q-pt-md q-pb-md">
+          <q-item>
+            <q-item-section class="col-2">
+              <q-radio
+                dense
+                v-model="enderecoSelecionado"
+                :val="endereco.id"
+                color="red"
+              />
+            </q-item-section>
 
-      <q-card class="my-card rounded-borders q-mb-md q-pt-md q-pb-md">
-        <q-item>
-          <q-item-section class="col-2">
-            <q-radio
-              dense
-              v-model="enderecoPadrao"
-              :val="endereco.id"
-              color="red"
-            />
-          </q-item-section>
+            <q-item-section @click="enderecoSelecionado = endereco.id">
+              <q-item-label>{{ endereco.titulo }}</q-item-label>
+              <q-item-label caption>
+                {{ `${endereco.endereco}, ${endereco.complemento}` }}
+              </q-item-label>
+            </q-item-section>
 
-          <q-item-section @click="enderecoPadrao = endereco.id">
-            <q-item-label>{{ endereco.titulo }}</q-item-label>
-            <q-item-label caption>
-              {{ `${endereco.endereco}, ${endereco.complemento}` }}
-            </q-item-label>
-          </q-item-section>
-
-          <q-item-section class="col-1 text-right">
-            <i
-              class="material-icons text-h6"
-              @click="mostrarMenu(endereco)"
-            >more_vert</i>
-          </q-item-section>
-        </q-item>
-      </q-card>
-    </q-list>
+            <q-item-section class="col-1 text-right">
+              <i
+                class="material-icons text-h6"
+                @click="mostrarMenu(endereco)"
+              >more_vert</i>
+            </q-item-section>
+          </q-item>
+        </q-card>
+      </q-list>
+    </div>
 
     <div class="q-pa-xs">
       <q-btn
@@ -65,7 +66,7 @@ export default {
   name: 'Lista',
   data () {
     return {
-      enderecoPadrao: '',
+      enderecoSelecionado: '',
       carregado: false
     }
   },
@@ -75,7 +76,7 @@ export default {
       await this.actionEnderecosListar()
         .then(() => {
           this.carregado = true
-          this.enderecoPadrao = this.getClienteConfiguracoes.enderecoPadrao
+          this.enderecoSelecionado = this.getClienteConfiguracoes.enderecoPadrao
           this.$app.Util.setLoading(false)
         })
     } catch (error) {
@@ -87,6 +88,7 @@ export default {
   computed: {
     ...mapGetters({
       getEnderecos: 'enderecos/enderecos',
+      getEnderecoPadrao: 'enderecos/enderecoPadrao',
       getClienteConfiguracoes: 'clientes/configuracoes'
     })
   },
@@ -94,12 +96,12 @@ export default {
     ...mapActions({
       actionEnderecosListar: 'enderecos/lista',
       actionEnderecoRemover: 'enderecos/remover',
+      actionEnderecoPadraoAlterar: 'enderecos/alterarEnderecoPadrao',
       actionClienteConfiguracaoAlterar: 'clientes/alterarConfiguracao'
     }),
     mostrarMenu (endereco) {
       this.$q.bottomSheet({
         message: endereco.titulo,
-        // grid: true,
         actions: [
           {
             label: 'Editar',
@@ -123,7 +125,7 @@ export default {
             this.$router.push({ name: 'editarendereco', params: { id: endereco.id } })
             break
           case 'remover':
-            if (endereco.id === this.enderecoPadrao) {
+            if (endereco.id === this.getEnderecoPadrao) {
               this.$app.Util.setMessage('Você não pode remover o seu endereço padrão.', 'info')
               return
             }
@@ -145,19 +147,18 @@ export default {
     }
   },
   watch: {
-    getEnderecos (lista) {
-      if (!this.enderecoPadrao && lista.length > 0) {
-        this.enderecoPadrao = lista[0].id
+    async getEnderecos (lista) {
+      if (!this.getEnderecoPadrao && lista.length > 0) {
+        this.enderecoSelecionado = lista[0].id
       }
     },
-    async enderecoPadrao (newVal, oldVal) {
+    async enderecoSelecionado (newVal, oldVal) {
       try {
         await this.actionClienteConfiguracaoAlterar(JSON.stringify({ enderecoPadrao: newVal }))
           .then(() => {
-            this.enderecoPadrao = newVal
+            this.actionEnderecoPadraoAlterar(newVal)
           })
       } catch (error) {
-        this.enderecoPadrao = oldVal
         this.$app.Util.setMessage(error, 'fail')
       }
     }

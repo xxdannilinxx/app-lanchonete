@@ -18,7 +18,7 @@ class Categorias extends AbstractModel
 
         $qb->select('partial c.{id,nome}')
             ->from('Entities\Categorias', 'c')
-            ->where("c.situacao = 'ativo'")
+            ->where("c.situacao <> 'desativado'")
             ->orderBy('c.id', 'asc');
         $this->usarFiltro($qb, $filtros, 'c');
 

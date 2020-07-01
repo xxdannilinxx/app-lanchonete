@@ -1,11 +1,14 @@
 <template>
-<q-page class="flex bg-white-3 column">
-    <h3>Pedidos</h3>
-</q-page>
+  <Lista />
 </template>
 
 <script>
+import Lista from '../../components/pedidos/lista'
+
 export default {
-    name: 'Pedidos'
+  name: 'Pedido',
+  components: {
+    Lista
+  }
 }
 </script>

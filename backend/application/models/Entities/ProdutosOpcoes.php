@@ -27,27 +27,6 @@ class ProdutosOpcoes
     private $id;
 
     /**
-     * @var float|null
-     *
-     * @Column(name="valor", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $valor = '0';
-
-    /**
-     * @var int
-     *
-     * @Column(name="minimo", type="integer", nullable=false)
-     */
-    private $minimo = '0';
-
-    /**
-     * @var int
-     *
-     * @Column(name="maximo", type="integer", nullable=false)
-     */
-    private $maximo = '0';
-
-    /**
      * @var int
      *
      * @Column(name="obrigatorio", type="integer", nullable=false)
@@ -121,54 +100,6 @@ class ProdutosOpcoes
     public function getValor()
     {
         return $this->valor;
-    }
-
-    /**
-     * Set minimo.
-     *
-     * @param int $minimo
-     *
-     * @return ProdutosOpcoes
-     */
-    public function setMinimo($minimo)
-    {
-        $this->minimo = $minimo;
-
-        return $this;
-    }
-
-    /**
-     * Get minimo.
-     *
-     * @return int
-     */
-    public function getMinimo()
-    {
-        return $this->minimo;
-    }
-
-    /**
-     * Set maximo.
-     *
-     * @param int $maximo
-     *
-     * @return ProdutosOpcoes
-     */
-    public function setMaximo($maximo)
-    {
-        $this->maximo = $maximo;
-
-        return $this;
-    }
-
-    /**
-     * Get maximo.
-     *
-     * @return int
-     */
-    public function getMaximo()
-    {
-        return $this->maximo;
     }
 
     /**

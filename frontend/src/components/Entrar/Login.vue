@@ -87,7 +87,7 @@ export default {
               .then(response => {
                 this.facebookConectado = true
                 this.$app.aplicarConfiguracoesCliente(this.getConfiguracoesCliente)
-                this.$router.push('/')
+                this.$router.push({ name: 'inicio' })
                 this.$app.Util.setLoading(false)
               })
           })

@@ -15,12 +15,11 @@ class Enderecos extends AbstractModel
     public function lista(object $filtros = null): array
     {
         $qb = $this->em->createQueryBuilder();
-        $qb->select('partial e.{id,titulo,endereco,complemento}', 'partial b.{id,nome}')
+        $qb->select('partial e.{id,titulo,endereco,complemento}', 'partial b.{id,nome,valor}')
             ->from('Entities\Enderecos', 'e')
             ->leftjoin('e.bairro', 'b')
             ->leftjoin('e.cliente', 'c')
-            ->where("e.situacao = 'ativo'")
-            ->andWhere("c.situacao = 'ativo'")
+            ->where("e.situacao <> 'desativado'")
             ->orderBy('e.id', 'desc');
         $this->usarFiltro($qb, $filtros, 'e');
 

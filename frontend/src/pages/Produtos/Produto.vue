@@ -1,11 +1,14 @@
 <template>
-  <q-page class="flex bg-white-3 column">
-    <h3>Produtos</h3>
-  </q-page>
+  <Opcoes />
 </template>
 
 <script>
+import Opcoes from '../../components/produtos/opcoes'
+
 export default {
-  name: 'Produtos'
+  name: 'Produtos',
+  components: {
+    Opcoes
+  }
 }
 </script>

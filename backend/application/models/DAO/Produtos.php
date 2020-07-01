@@ -19,7 +19,7 @@ class Produtos extends AbstractModel
         $qb->select('partial p.{id,nome,descricao,valor,imagem}')
             ->from('Entities\Produtos', 'p')
             ->leftjoin('p.categoria', 'c')
-            ->andWhere("p.situacao = 'ativo'")
+            ->where("p.situacao <> 'desativado'")
             ->orderBy('p.id', 'asc');
         $this->usarFiltro($qb, $filtros, 'p');
 

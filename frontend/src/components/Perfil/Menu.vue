@@ -99,7 +99,7 @@ export default {
   methods: {
     async confirma () {
       this.$app.Util.setConfirm('Deseja realmente encerrar sua sessão?', () => {
-        this.$router.push('/entrar')
+        this.$router.push({ name: 'entrar' })
       }, this.$app.EmptyFn)
     }
   }

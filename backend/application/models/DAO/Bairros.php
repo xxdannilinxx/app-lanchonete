@@ -18,7 +18,7 @@ class Bairros extends AbstractModel
 
         $qb->select('partial b.{id,nome,valor}')
             ->from('Entities\Bairros', 'b')
-            ->where("b.situacao = 'ativo'")
+            ->where("b.situacao <> 'desativado'")
             ->orderBy('b.nome', 'asc');
         $this->usarFiltro($qb, $filtros, 'b');
 

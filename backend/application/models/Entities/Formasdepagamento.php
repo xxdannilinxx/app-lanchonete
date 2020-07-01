@@ -31,7 +31,7 @@ class Formasdepagamento
      *
      * @Column(name="nome", type="string", length=45, nullable=false)
      */
-    private $nome = '0';
+    private $nome;
 
     /**
      * @var string|null
@@ -39,6 +39,13 @@ class Formasdepagamento
      * @Column(name="descricao", type="string", length=45, nullable=true)
      */
     private $descricao;
+
+    /**
+     * @var int
+     *
+     * @Column(name="troco", type="integer", nullable=false)
+     */
+    private $troco = '0';
 
     /**
      * @var string|null
@@ -111,6 +118,30 @@ class Formasdepagamento
     public function getDescricao()
     {
         return $this->descricao;
+    }
+
+    /**
+     * Set troco.
+     *
+     * @param int $troco
+     *
+     * @return Formasdepagamento
+     */
+    public function setTroco($troco)
+    {
+        $this->troco = $troco;
+
+        return $this;
+    }
+
+    /**
+     * Get troco.
+     *
+     * @return int
+     */
+    public function getTroco()
+    {
+        return $this->troco;
     }
 
     /**

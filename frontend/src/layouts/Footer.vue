@@ -1,5 +1,7 @@
 <template>
-  <div class="q-mt-xl">
+  <div class="row q-mt-xl">
+    <div class="col q-mt-lg">
+    </div>
     <div
       bordered
       slot="footer"

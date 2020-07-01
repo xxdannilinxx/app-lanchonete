@@ -1,3 +1,5 @@
 export const state = {
-    items: []
+    items: [],
+    produto: {},
+    opcoes: []
 }

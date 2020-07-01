@@ -1,4 +1,5 @@
 import axios from 'axios'
+import moment from 'moment'
 import { Loading, Notify, Dialog, Dark } from 'quasar'
 /**
  * App
@@ -12,6 +13,10 @@ app.versao = "1.0.0"
  * função vazia
  */
 app.EmptyFn = () => { }
+/**
+ * Região
+ */
+moment.locale('pt-br')
 /**
  * Útil
  */
@@ -66,8 +71,17 @@ app.Util = {
             message: String(mensagem),
             cancel: true,
             persistent: true
-        }).onOk(() => success())
-            .onCancel(() => fail())
+        }).onOk(success)
+            .onCancel(fail)
+    },
+    setMoeda: (valor) => {
+        return Number(valor).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+    },
+    setData: (data) => {
+        return moment(String(data)).format('DD/MM/YYYY')
+    },
+    setHora: (hora) => {
+        return moment(String(hora)).format('HH:mm')
     }
 }
 /**
@@ -148,10 +162,16 @@ export default ({ Vue }) => {
         app.Util.setLoading('<b>Sua internet está fraca!</b><br />Verifique sua conexão com a internet.')
     })
     /**
-     * filtro de moeda padrão
+     * filtros
      */
     Vue.filter('moeda', valor => {
-        return Number(valor).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+        return app.Util.setMoeda(valor)
+    })
+    Vue.filter('data', data => {
+        return app.Util.setData(data)
+    })
+    Vue.filter('hora', hora => {
+        return app.Util.setHora(hora)
     })
 }
 

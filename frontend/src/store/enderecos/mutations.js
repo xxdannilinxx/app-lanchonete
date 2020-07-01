@@ -22,5 +22,8 @@ export const mutations = {
                 return endereco
             }
         })
+    },
+    UPDATE_ENDERECO_PADRAO (state, dados) {
+        state.enderecoPadrao = dados
     }
 }

@@ -24,5 +24,9 @@ export const actions = {
             commit('ADD_ENDERECO', data)
         }
         return data
+    },
+    async alterarEnderecoPadrao ({ commit }, dados) {
+        commit('UPDATE_ENDERECO_PADRAO', dados)
+        return dados
     }
 }

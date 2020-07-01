@@ -23,6 +23,7 @@
       <q-input
         filled
         v-model="dados.cpf"
+        fill-mask
         label="Seu cpf *"
         hint="000.000.000-00"
         mask="###.###.###-##"
@@ -35,13 +36,14 @@
       <q-input
         filled
         v-model="dados.telefone"
+        fill-mask
         label="Seu telefone *"
         hint="(00) 00000-0000"
         mask="(##) #####-####"
         maxlength="45"
         clearable
         lazy-rules
-        :rules="[ val => val && val.length === 15 || val.length + 'Por favor, digite o número do seu telefone']"
+        :rules="[ val => val && val.length === 15 || 'Por favor, digite o número do seu telefone']"
       />
 
       <div class="q-pa-xs q-pt-md">

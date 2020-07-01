@@ -1,4 +1,5 @@
 export const state = {
     enderecos: [],
-    endereco: []
+    endereco: [],
+    enderecoPadrao: {}
 }

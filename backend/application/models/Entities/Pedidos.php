@@ -34,6 +34,13 @@ class Pedidos
     private $valor;
 
     /**
+     * @var float
+     *
+     * @Column(name="valorentrega", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $valorentrega;
+
+    /**
      * @var float|null
      *
      * @Column(name="troco", type="float", precision=10, scale=0, nullable=true)
@@ -48,9 +55,12 @@ class Pedidos
     private $observacao;
 
     /**
-     * @var string
+     * @var \Entities\Enderecos
      *
-     * @Column(name="endereco", type="string", length=255, nullable=false)
+     * @ManyToOne(targetEntity="Enderecos")
+     * @JoinColumns({
+     *   @JoinColumn(name="endereco", referencedColumnName="id")
+     * })
      */
     private $endereco;
 
@@ -134,6 +144,30 @@ class Pedidos
     }
 
     /**
+     * Set valorentrega.
+     *
+     * @param float $valorentrega
+     *
+     * @return Pedidos
+     */
+    public function setValorEntrega($valorentrega)
+    {
+        $this->valorentrega = $valorentrega;
+
+        return $this;
+    }
+
+    /**
+     * Get valorentrega.
+     *
+     * @return float
+     */
+    public function getValorEntrega()
+    {
+        return $this->valorentrega;
+    }
+
+    /**
      * Set troco.
      *
      * @param float|null $troco
@@ -184,11 +218,11 @@ class Pedidos
     /**
      * Set endereco.
      *
-     * @param string $endereco
+     * @param \Entities\Enderecos|null $endereco
      *
      * @return Pedidos
      */
-    public function setEndereco($endereco)
+    public function setEndereco(\Entities\Enderecos $endereco = null)
     {
         $this->endereco = $endereco;
 
@@ -198,7 +232,7 @@ class Pedidos
     /**
      * Get endereco.
      *
-     * @return string
+     * @return \Entities\Enderecos|null
      */
     public function getEndereco()
     {
@@ -308,7 +342,7 @@ class Pedidos
      *
      * @return Pedidos
      */
-    public function setFormadepagamento(\Formasdepagamento $formadepagamento = null)
+    public function setFormadepagamento(\Entities\Formasdepagamento $formadepagamento = null)
     {
         $this->formadepagamento = $formadepagamento;
 
