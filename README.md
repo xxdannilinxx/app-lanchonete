@@ -2,14 +2,11 @@
 Aplicativo disponível para multi-plataforma através do quasar fazendo o build com o electron.
 
 ### Tecnologias utilizadas
-Backend
-PHP, Doctrine e Code Igniter
+Backend: PHP, Doctrine e Code Igniter
 
-Frontend
-Quasar, Vue (Vuex) e Electron
+Frontend: Quasar, Vue (Vuex) e Electron
 
-DB
-MySQL (Estrutura está no Workbench)
+DB: MySQL (Estrutura está no Workbench)
 
 ## Manutenção
 Basta criar o arquivo "manutencao" na raíz do site.
@@ -20,10 +17,7 @@ Se estiver em modo de desenvolvimento, criar arquivo "dev" na raíz, caso contr�
 ## DUMP
 Para ativar dump, basta criar o arquivo "dump" na raíz, dentro do arquivo informar o valor numérico de acordo com o dump do Code Igniter:
 
-1 = Mensagens de erros, incluíndo do php
-2 = Mensagens de debug
-3 = Mensagens informativas
-4 = Todas mensagens
+(1) Mensagens de erros, incluíndo do php / (2) Mensagens de debug / (3) Mensagens informativas / (4) Todas mensagens
 
 ou para desativar, basta remover o arquivo "dump" na raiz.
 
