@@ -6,7 +6,7 @@ Backend: PHP, Doctrine e Code Igniter
 
 Frontend: Quasar, Vue (Vuex) e Electron
 
-DB: MySQL (Estrutura está no Workbench)
+DB: MySQL (Modelo no Workbench)
 
 ## Manutenção
 Basta criar o arquivo "manutencao" na raíz do site.
