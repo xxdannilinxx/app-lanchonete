@@ -1,16 +1,24 @@
-## Configuração
+# app-lanchonete
+Aplicativo disponível para multi-plataforma através do quasar fazendo o build com o electron.
 
-# MANUTENCAO
-Basta editar o arquivo "manutencao" na raíz do site.
+### Tecnologias utilizadas
+Backend
+PHP, Doctrine e Code Igniter
 
-# BANCO DE DADOS
-Criar arquivo "db" na raíz do site, o modelo do banco está na pasta documentação.
+Frontend
+Quasar, Vue (Vuex) e Electron
 
-# PRODUCÃO / DEESNVOLVIMENTO
+DB
+MySQL (Estrutura está no Workbench)
+
+## Manutenção
+Basta criar o arquivo "manutencao" na raíz do site.
+
+## Produção / Desenvolvimento
 Se estiver em modo de desenvolvimento, criar arquivo "dev" na raíz, caso contrário o sistema constatará que está em modo de produção.
 
-# DUMP
-Para ativar dump, basta criar o arquivo "dump" na raíz, dentro do arquivo informar o valor numérico:
+## DUMP
+Para ativar dump, basta criar o arquivo "dump" na raíz, dentro do arquivo informar o valor numérico de acordo com o dump do Code Igniter:
 
 1 = Mensagens de erros, incluíndo do php
 2 = Mensagens de debug
@@ -19,7 +27,8 @@ Para ativar dump, basta criar o arquivo "dump" na raíz, dentro do arquivo infor
 
 ou para desativar, basta remover o arquivo "dump" na raiz.
 
-* acessível na pasta backend/application/logs através do comando "tail -f *.log".
+## Logs
+Para acessar o log, dar chmod 777 no arquivo "log.sh" na raíz, ao fazer isso, ele já ativa o dump com todas as mensagens de erros (4).
 
-# LOG
-para acessar o log, dar permissão 777 no arquivo "log.sh" na raíz, ao fazer isso, ele já ativa o dump com todas as mensagens de erros (4).
+## Banco de Dados
+Criar arquivo "db" na raíz do site com os dados do banco, o modelo do banco está na pasta documentação.
