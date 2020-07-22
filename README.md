@@ -2,9 +2,9 @@
 Aplicativo disponível para multi-plataforma através do quasar fazendo o build com o electron.
 
 ### Tecnologias utilizadas
-Backend: PHP, Doctrine e Code Igniter
+Backend: API RESTful em PHP, framework Code Igniter e framework ORM Doctrine.
 
-Frontend: Quasar, Vue (Vuex) e Electron
+Frontend: Quasar e Vue (Vuex).
 
 DB: MySQL (Modelo no Workbench)
 
