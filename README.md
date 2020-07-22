@@ -9,10 +9,10 @@ Frontend: Quasar e Vue (Vuex).
 DB: MySQL (Modelo no Workbench)
 
 ## Manutenção
-Basta criar o arquivo "manutencao" na raíz do site.
+Para ativar o modo "maintence", basta criar o arquivo "manutencao" na raíz do site.
 
 ## Produção / Desenvolvimento
-Se estiver em modo de desenvolvimento, criar arquivo "dev" na raíz, caso contrário o sistema constatará que está em modo de produção.
+Se estiver em modo de desenvolvimento, criar arquivo "dev" na raíz, caso contrário o sistema constatará que está em modo de produção e alguns recursos de desenvolvimento serão perdidos.
 
 ## DUMP
 Para ativar dump, basta criar o arquivo "dump" na raíz, dentro do arquivo informar o valor numérico de acordo com o dump do Code Igniter:
