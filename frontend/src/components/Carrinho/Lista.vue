@@ -259,18 +259,6 @@ export default {
         this.$app.Util.setLoading(false)
         this.$app.Util.setMessage(error, 'fail')
       }
-      // verificar se produto está disponível
-      // analisar cupom
-      // reanalisar tudo
-      // console.log(this.getCupomDesconto())
-      // console.log(this.getSubTotal())
-      // console.log(this.getTaxaEntrega())
-      // console.log('ok')
-      // console.log(this.getCliente)
-      // console.log(this.$refs.cuponsDeDesconto.getCupom)
-      // console.log(this.$refs.enderecosLista)
-      // console.log(this.$refs.formasDePagamentoLista.padrao)
-      // console.log(this.$refs.formasDePagamentoLista.troco)
     }
   }
 }
